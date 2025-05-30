@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madam Shade Wolf's AI Tarot Reading</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="mystical-background">
+        <div class="stars"></div>
+    </div>
+
+    <div class="container">
+        <header class="reading-header">
+            <h1 class="title">Madam Shade Wolf's AI Tarot Reading</h1>
+            <p class="subtitle">Speak with the Oracle - Get Personal Insights from the Cards</p>
+        </header>
+
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="crystal-ball-small">
+                <div class="sphere"></div>
+            </div>
+            <h2>Welcome, Seeker of Truth</h2>
+            <p>I am Madam Shade Wolf, and I shall divine your path using the ancient Universal 6 Card Spread. Unlike simple readings, I will speak with you personally about your cards and provide deep insights tailored to your specific questions.</p>
+            <div class="meditation-guide">
+                <h3>🧘‍♀️ Prepare Your Mind & Question</h3>
+                <p>Take a moment to breathe deeply and focus on what weighs upon your heart. Think of a specific question about your life, relationships, career, or any challenge you face. The more focused your question, the more powerful your reading will be.</p>
+            </div>
+            <button id="begin-reading" class="mystical-btn">Begin My Reading</button>
+        </div>
+
+        <!-- Card Selection Screen -->
+        <div id="selection-screen" class="screen">
+            <h2>Choose Your 6 Sacred Cards</h2>
+            <p>Trust your intuition and select 6 cards from the spread below. Each position will reveal different aspects of your situation.</p>
+            
+            <div class="selection-progress">
+                Cards selected: <span id="cards-selected">0</span> / 6
+            </div>
+
+            <div class="card-grid" id="card-selection-grid">
+                <!-- Cards generated here -->
+            </div>
+
+            <div class="position-guide">
+                <h3>Your 6 Card Positions:</h3>
+                <div class="positions-list">
+                    <div class="position-item">
+                        <span class="position-number">1</span>
+                        <span class="position-name">Present Situation - Your current reality</span>
+                    </div>
+                    <div class="position-item">
+                        <span class="position-number">2</span>
+                        <span class="position-name">Challenges - Hidden influences affecting you</span>
+                    </div>
+                    <div class="position-item">
+                        <span class="position-number">3</span>
+                        <span class="position-name">Distant Past - Foundation that shaped you</span>
+                    </div>
+                    <div class="position-item">
+                        <span class="position-number">4</span>
+                        <span class="position-name">Recent Past - What's leaving your life</span>
+                    </div>
+                    <div class="position-item">
+                        <span class="position-number">5</span>
+                        <span class="position-name">Possible Future - What's approaching</span>
+                    </div>
+                    <div class="position-item">
+                        <span class="position-number">6</span>
+                        <span class="position-name">Immediate Future - Your next steps</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Input Screen -->
+        <div id="question-screen" class="screen">
+            <h2>Share Your Question with Madam Shade Wolf</h2>
+            <div class="revealed-cards-preview" id="cards-preview">
+                <!-- Selected cards shown here -->
+            </div>
+            <div class="question-section">
+                <h3>What weighs upon your heart?</h3>
+                <p>Tell me about your situation or ask a specific question. I will interpret your cards in relation to your personal circumstances.</p>
+                <textarea 
+                    id="user-question" 
+                    placeholder="Example: I'm unsure about my relationship... OR Should I take this new job opportunity? OR I feel lost about my life direction..."
+                    maxlength="500"
+                ></textarea>
+                <div class="char-count">
+                    <span id="char-count">0</span>/500 characters
+                </div>
+                <button id="get-reading" class="mystical-btn">Consult the Oracle</button>
+            </div>
+        </div>
+
+        <!-- AI Chat Reading Screen -->
+        <div id="chat-screen" class="screen">
+            <h2>Your Personal Reading</h2>
+            
+            <div class="chat-container">
+                <div class="selected-cards-display" id="final-cards-display">
+                    <!-- Cards shown here -->
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <!-- AI conversation appears here -->
+                </div>
+                
+                <div class="chat-input-section">
+                    <div class="input-container">
+                        <input 
+                            type="text" 
+                            id="follow-up-input" 
+                            placeholder="Ask Madam Shade Wolf about your reading..."
+                            maxlength="300"
+                        />
+                        <button id="send-message" class="send-btn">Send</button>
+                    </div>
+                    <button id="new-reading" class="mystical-btn">New Reading</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a0b2e 50%, #2d1b69 100%);
+            min-height: 100vh;
+            font-family: 'Crimson Text', serif;
+            color: #fbbf24;
+            overflow-x: hidden;
+        }
+
+        .mystical-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fbbf24, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #9333ea, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .reading-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .title {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #fbbf24;
+            text-shadow: 0 0 30px rgba(251, 191, 36, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            color: #c084fc;
+            font-style: italic;
+            text-shadow: 0 0 20px rgba(192, 132, 252, 0.5);
+        }
+
+        .screen {
+            display: none;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .crystal-ball-small {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+        }
+
+        .sphere {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(255, 255, 255, 0.3) 0%, 
+                rgba(147, 51, 234, 0.2) 40%, 
+                rgba(45, 27, 105, 0.4) 100%);
+            box-shadow: 
+                0 10px 25px rgba(147, 51, 234, 0.5),
+                inset 0 -10px 15px rgba(147, 51, 234, 0.3);
+            animation: energyPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes energyPulse {
+            0%, 100% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+
+        h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #c084fc;
+        }
+
+        p {
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #e4e4e7;
+        }
+
+        .meditation-guide {
+            background: rgba(45, 27, 105, 0.3);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+        }
+
+        .mystical-btn {
+            background: linear-gradient(45deg, #9333ea, #6b46c1);
+            color: #fbbf24;
+            border: 2px solid #fbbf24;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
+            margin: 20px 10px;
+        }
+
+        .mystical-btn:hover {
+            background: linear-gradient(45deg, #a855f7, #7c3aed);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .mystical-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .selection-progress {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: #c084fc;
+            font-family: 'Cinzel', serif;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .tarot-card {
+            width: 100px;
+            height: 150px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-back {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b69 50%, #4c1d95 100%);
+            border: 2px solid #fbbf24;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+        }
+
+        .card-back::before {
+            content: "🌙";
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.8);
+        }
+
+        .tarot-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(251, 191, 36, 0.4);
+        }
+
+        .tarot-card.selected {
+            transform: scale(0.9);
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .tarot-card.selected::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: #fbbf24;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 1);
+        }
+
+        .position-guide {
+            max-width: 600px;
+            margin: 40px auto;
+            background: rgba(45, 27, 105, 0.2);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .positions-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .position-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .position-number {
+            background: #fbbf24;
+            color: #1a0b2e;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+        }
+
+        .position-name {
+            font-size: 1.1em;
+            color: #e4e4e7;
+        }
+
+        .question-section {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #user-question {
+            width: 100%;
+            min-height: 120px;
+            padding: 20px;
+            border: 2px solid #fbbf24;
+            border-radius: 15px;
+            background: rgba(45, 27, 105, 0.3);
+            color: #fbbf24;
+            font-size: 1.2em;
+            font-family: 'Crimson Text', serif;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+
+        #user-question::placeholder {
+            color: rgba(251, 191, 36, 0.6);
+        }
+
+        .char-count {
+            text-align: right;
+            color: #c084fc;
+            margin-bottom: 20px;
+        }
+
+        .revealed-cards-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .mini-card {
+            text-align: center;
+        }
+
+        .mini-card-face {
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
+            border: 2px solid #1a0b2e;
+            border-radius: 10px;
+            color: #1a0b2e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+
+        .mini-card-name {
+            font-size: 0.7em;
+            margin-bottom: 5px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .mini-card-symbol {
+            font-size: 1.8em;
+        }
+
+        .mini-position-label {
+            font-size: 0.9em;
+            color: #c084fc;
+            font-family: 'Cinzel', serif;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .selected-cards-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(45, 27, 105, 0.2);
+            border-radius: 15px;
+        }
+
+        .chat-messages {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            min-height: 300px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            line-height: 1.6;
+        }
+
+        .ai-message {
+            background: rgba(147, 51, 234, 0.2);
+            border-left: 4px solid #fbbf24;
+        }
+
+        .user-message {
+            background: rgba(45, 27, 105, 0.3);
+            border-left: 4px solid #c084fc;
+            margin-left: 20px;
+        }
+
+        .message-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .ai-message .message-header {
+            color: #fbbf24;
+        }
+
+        .user-message .message-header {
+            color: #c084fc;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #follow-up-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #fbbf24;
+            border-radius: 25px;
+            background: rgba(45, 27, 105, 0.3);
+            color: #fbbf24;
+            font-size: 1.1em;
+            font-family: 'Crimson Text', serif;
+        }
+
+        #follow-up-input::placeholder {
+            color: rgba(251, 191, 36, 0.6);
+        }
+
+        .send-btn {
+            background: linear-gradient(45deg, #9333ea, #6b46c1);
+            color: #fbbf24;
+            border: 2px solid #fbbf24;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            background: linear-gradient(45deg, #a855f7, #7c3aed);
+            transform: translateY(-2px);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #c084fc;
+            font-style: italic;
+        }
+
+        .loading::after {
+            content: "...";
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5em;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 15px;
+            }
+
+            .tarot-card {
+                width: 80px;
+                height: 120px;
+            }
+
+            .selected-cards-display {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            }
+
+            .input-container {
+                flex-direction: column;
+            }
+
+            .send-btn {
+                align-self: flex-end;
+            }
+        }
+    </style>
+
+    <script>
+        // Major Arcana cards for the Universal 6 Card Spread
+        const majorArcana = [
+            {name: "The Fool", symbol: "🃏", number: "0"},
+            {name: "The Magician", symbol: "🎩", number: "I"},
+            {name: "The High Priestess", symbol: "🌙", number: "II"},
+            {name: "The Empress", symbol: "👑", number: "III"},
+            {name: "The Emperor", symbol: "⚔️", number: "IV"},
+            {name: "The Hierophant", symbol: "🏛️", number: "V"},
+            {name: "The Lovers", symbol: "💕", number: "VI"},
+            {name: "The Chariot", symbol: "🏇", number: "VII"},
+            {name: "Strength", symbol: "🦁", number: "VIII"},
+            {name: "The Hermit", symbol: "🕯️", number: "IX"},
+            {name: "Wheel of Fortune", symbol: "☸️", number: "X"},
+            {name: "Justice", symbol: "⚖️", number: "XI"},
+            {name: "The Hanged Man", symbol: "🙃", number: "XII"},
+            {name: "Death", symbol: "💀", number: "XIII"},
+            {name: "Temperance", symbol: "🏺", number: "XIV"},
+            {name: "The Devil", symbol: "😈", number: "XV"},
+            {name: "The Tower", symbol: "🗼", number: "XVI"},
+            {name: "The Star", symbol: "⭐", number: "XVII"},
+            {name: "The Moon", symbol: "🌕", number: "XVIII"},
+            {name: "The Sun", symbol: "☀️", number: "XIX"},
+            {name: "Judgement", symbol: "📯", number: "XX"},
+            {name: "The World", symbol: "🌍", number: "XXI"}
+        ];
+
+        const positionMeanings = [
+            "Present Situation",
+            "Challenges",
+            "Distant Past", 
+            "Recent Past",
+            "Possible Future",
+            "Immediate Future"
+        ];
+
+        let shuffledDeck = [];
+        let selectedCards = [];
+        let userQuestion = '';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            shuffleDeck();
+            setupEventListeners();
+        });
+
+        function shuffleDeck() {
+            shuffledDeck = [...majorArcana].sort(() => Math.random() - 0.5);
+        }
+
+        function setupEventListeners() {
+            document.getElementById('begin-reading').addEventListener('click', showSelectionScreen);
+            document.getElementById('get-reading').addEventListener('click', showChatScreen);
+            document.getElementById('send-message').addEventListener('click', sendFollowUpMessage);
+            document.getElementById('new-reading').addEventListener('click', resetReading);
+            
+            // Character count for question
+            document.getElementById('user-question').addEventListener('input', updateCharCount);
+            
+            // Enter key for sending messages
+            document.getElementById('follow-up-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendFollowUpMessage();
+                }
+            });
+        }
+
+        function updateCharCount() {
+            const textarea = document.getElementById('user-question');
+            const charCount = document.getElementById('char-count');
+            charCount.textContent = textarea.value.length;
+        }
+
+        function showSelectionScreen() {
+            showScreen('selection-screen');
+            createCardSelection();
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function createCardSelection() {
+            const cardGrid = document.getElementById('card-selection-grid');
+            cardGrid.innerHTML = '';
+            
+            // Create 22 cards for selection
+            for (let i = 0; i < 22; i++) {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'tarot-card';
+                cardElement.dataset.cardIndex = i;
+                
+                const cardBack = document.createElement('div');
+                cardBack.className = 'card-back';
+                
+                cardElement.appendChild(cardBack);
+                cardElement.addEventListener('click', selectCard);
+                cardGrid.appendChild(cardElement);
+            }
+        }
+
+        function selectCard(event) {
+            if (selectedCards.length >= 6) return;
+            
+            const cardElement = event.currentTarget;
+            if (cardElement.classList.contains('selected')) return;
+            
+            const cardIndex = parseInt(cardElement.dataset.cardIndex);
+            const card = shuffledDeck[cardIndex];
+            
+            selectedCards.push(card);
+            cardElement.classList.add('selected');
+            
+            document.getElementById('cards-selected').textContent = selectedCards.length;
+            
+            if (selectedCards.length === 6) {
+                setTimeout(() => {
+                    showQuestionScreen();
+                }, 1000);
+            }
+        }
+
+        function showQuestionScreen() {
+            showScreen('question-screen');
+            displayCardsPreview();
+        }
+
+        function displayCardsPreview() {
+            const preview = document.getElementById('cards-preview');
+            preview.innerHTML = '';
+            
+            selectedCards.forEach((card, index) => {
+                const miniCard = document.createElement('div');
+                miniCard.className = 'mini-card';
+                miniCard.innerHTML = `
+                    <div class="mini-card-face">
+                        <div class="mini-card-name">${card.name}</div>
+                        <div class="mini-card-symbol">${card.symbol}</div>
+                    </div>
+                    <div class="mini-position-label">${positionMeanings[index]}</div>
+                `;
+                preview.appendChild(miniCard);
+            });
+        }
+
+        function showChatScreen() {
+            userQuestion = document.getElementById('user-question').value.trim();
+            if (!userQuestion) {
+                alert('Please share your question or situation first.');
+                return;
+            }
+            
+            showScreen('chat-screen');
+            displayFinalCards();
+            startInitialReading();
+        }
+
+        function displayFinalCards() {
+            const display = document.getElementById('final-cards-display');
+            display.innerHTML = '';
+            
+            selectedCards.forEach((card, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'mini-card';
+                cardDiv.innerHTML = `
+                    <div class="mini-card-face">
+                        <div class="mini-card-name">${card.name}</div>
+                        <div class="mini-card-symbol">${card.symbol}</div>
+                    </div>
+                    <div class="mini-position-label">${positionMeanings[index]}</div>
+                `;
+                display.appendChild(cardDiv);
+            });
+        }
+
+        async function startInitialReading() {
+            const chatMessages = document.getElementById('chat-messages');
+            
+            // Show user's question
+            addMessage('user', 'Your Question', userQuestion);
+            
+            // Show loading
+            const loadingDiv = addMessage('ai', 'Madam Shade Wolf', '<div class="loading">Consulting the cards</div>');
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question: userQuestion,
+                        cards: selectedCards,
+                        positions: positionMeanings,
+                        isInitial: true
+                    }),
+                });
+
+                const data = await response.json();
+                
+                // Replace loading with actual response
+                loadingDiv.querySelector('.message-content').innerHTML = data.response;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                loadingDiv.querySelector('.message-content').innerHTML = 'I apologize, but the mystical energies are disrupted. Please try again.';
+            }
+        }
+
+        async function sendFollowUpMessage() {
+            const input = document.getElementById('follow-up-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Disable input while processing
+            input.disabled = true;
+            document.getElementById('send-message').disabled = true;
+            
+            // Add user message
+            addMessage('user', 'You', message);
+            
+            // Clear input
+            input.value = '';
+            
+            // Show loading
+            const loadingDiv = addMessage('ai', 'Madam Shade Wolf', '<div class="loading">Consulting the cards</div>');
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question: message,
+                        cards: selectedCards,
+                        positions: positionMeanings,
+                        isInitial: false,
+                        originalQuestion: userQuestion
+                    }),
+                });
+
+                const data = await response.json();
+                
+                // Replace loading with actual response
+                loadingDiv.querySelector('.message-content').innerHTML = data.response;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                loadingDiv.querySelector('.message-content').innerHTML = 'The mystical connection falters... Please try again.';
+            } finally {
+                // Re-enable input
+                input.disabled = false;
+                document.getElementById('send-message').disabled = false;
+                input.focus();
+            }
+        }
+
+        function addMessage(type, sender, content) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            messageDiv.innerHTML = `
+                <div class="message-header">${sender}</div>
+                <div class="message-content">${content}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageDiv;
+        }
+
+        function resetReading() {
+            selectedCards = [];
+            userQuestion = '';
+            shuffleDeck();
+            document.getElementById('cards-selected').textContent = '0';
+            document.getElementById('user-question').value = '';
+            document.getElementById('char-count').textContent = '0';
+            document.getElementById('follow-up-input').value = '';
+            document.getElementById('chat-messages').innerHTML = '';
+            showScreen('welcome-screen');
+        }
+    </script>
+</body>
+</html>
