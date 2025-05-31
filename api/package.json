@@ -1,0 +1,9 @@
+```jsonc
+{
+  "name": "madam-shadewolf-tarot",
+  "version": "1.0.0",
+  "scripts": {},
+  "dependencies": {
+    "openai": "^4.0.0"
+  }
+}
