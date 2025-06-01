@@ -210,8 +210,8 @@
     }
 
     /*───────────────────────────────────────────────────────────────────────────
-      CARD‐BACK IMAGE (USE YOUR OWN “cards/back.jpg” OR SIMILAR)
-      We’ll style this <img> so it’s exactly 100×150 px, with rounded corners.
+      CARD‐BACK IMAGE (USE YOUR OWN “cards/back.jpg”)
+      We style this <img> so it’s exactly 100×150 px, with rounded corners.
     ───────────────────────────────────────────────────────────────────────────*/
     .tarot-card {
       width: 100px;
@@ -645,145 +645,146 @@
 
   <script>
     //──────────────────────────────────────────────────────────────────────────
-    //  MAJOR ARCANA DATA (Now includes frontImage URLs)
-    //  You must place these image files in a "cards/" folder alongside index.html
-    //  and give each front a matching PNG/JPG. Then supply the correct file names.
+    //  MAJOR ARCANA DATA (Now includes frontImage URLs matching your uploads)
+    //  Make sure each of these files exists in /cards exactly as written:
+    //  back.jpg, death.png, high_priestess.png, judgement.png, justice.png, etc.
     //──────────────────────────────────────────────────────────────────────────
     const backImageUrl = "/cards/back.jpg"; 
-    // ← CHANGE HERE: be sure you actually have "cards/back.jpg" (or .png etc).
+    // ← We assume you have placed "back.jpg" inside cards/
 
     const majorArcana = [
       {
         name: "The Fool",
         symbol: "🃏",
         number: "0",
-        frontImage: "/cards/the_fool.png" // ← CHANGE HERE
+        frontImage: "/cards/the_fool.png"
       },
       {
         name: "The Magician",
         symbol: "🎩",
         number: "I",
-        frontImage: "/cards/the_magician.png" // ← CHANGE HERE
+        frontImage: "/cards/the_magician.png"
       },
       {
         name: "The High Priestess",
         symbol: "🌙",
         number: "II",
-        frontImage: "/cards/high_priestess.png" // ← CHANGE HERE
+        frontImage: "/cards/high_priestess.png"
       },
       {
         name: "The Empress",
         symbol: "👑",
         number: "III",
-        frontImage: "/cards/the_empress.png" // ← CHANGE HERE
+        frontImage: "/cards/the_empress.png"
       },
       {
         name: "The Emperor",
         symbol: "⚔️",
         number: "IV",
-        frontImage: "/cards/the_emperor.png" // ← CHANGE HERE
+        frontImage: "/cards/the_emperor.png"
       },
       {
         name: "The Hierophant",
         symbol: "🏛️",
         number: "V",
-        frontImage: "/cards/the_hierophant.png" // ← CHANGE HERE
+        frontImage: "/cards/the_hierophant.png"
       },
       {
         name: "The Lovers",
         symbol: "💕",
         number: "VI",
-        frontImage: "/cards/the_lovers.png" // ← CHANGE HERE
+        frontImage: "/cards/the_lovers.png"
       },
       {
         name: "The Chariot",
         symbol: "🏇",
         number: "VII",
-        frontImage: "/cards/the_chariot.png" // ← CHANGE HERE
+        frontImage: "/cards/the_chariot.png"
       },
       {
         name: "Strength",
         symbol: "🦁",
         number: "VIII",
-        frontImage: "/cards/strength.png" // ← CHANGE HERE
+        frontImage: "/cards/strength.png"
       },
       {
         name: "The Hermit",
         symbol: "🕯️",
         number: "IX",
-        frontImage: "/cards/the_hermit.png" // ← CHANGE HERE
+        frontImage: "/cards/the_hermit.png"
       },
       {
         name: "Wheel of Fortune",
         symbol: "☸️",
         number: "X",
-        frontImage: "/cards/wheel_of_fortune.png" // ← CHANGE HERE
+        frontImage: "/cards/wheel_of_fortune.png"
+        // ← If you have NOT yet uploaded wheel_of_fortune.png, be sure to add it.
       },
       {
         name: "Justice",
         symbol: "⚖️",
         number: "XI",
-        frontImage: "/cards/justice.png" // ← CHANGE HERE
+        frontImage: "/cards/justice.png"
       },
       {
         name: "The Hanged Man",
         symbol: "🙃",
         number: "XII",
-        frontImage: "/cards/the_hanged_man.png" // ← CHANGE HERE
+        frontImage: "/cards/the_hanged_man.png"
       },
       {
         name: "Death",
         symbol: "💀",
         number: "XIII",
-        frontImage: "/cards/death.png" // ← CHANGE HERE
+        frontImage: "/cards/death.png"
       },
       {
         name: "Temperance",
         symbol: "🏺",
         number: "XIV",
-        frontImage: "/cards/temperance.png" // ← CHANGE HERE
+        frontImage: "/cards/temperance.png"
       },
       {
         name: "The Devil",
         symbol: "😈",
         number: "XV",
-        frontImage: "/cards/the_devil.png" // ← CHANGE HERE
+        frontImage: "/cards/the_devil.png"
       },
       {
         name: "The Tower",
         symbol: "🗼",
         number: "XVI",
-        frontImage: "/cards/the_tower.png" // ← CHANGE HERE
+        frontImage: "/cards/the_tower.png"
       },
       {
         name: "The Star",
         symbol: "⭐",
         number: "XVII",
-        frontImage: "/cards/the_star.png" // ← CHANGE HERE
+        frontImage: "/cards/the_star.png"
       },
       {
         name: "The Moon",
         symbol: "🌕",
         number: "XVIII",
-        frontImage: "/cards/the_moon.png" // ← CHANGE HERE
+        frontImage: "/cards/the_moon.png"
       },
       {
         name: "The Sun",
         symbol: "☀️",
         number: "XIX",
-        frontImage: "/cards/the_sun.png" // ← CHANGE HERE
+        frontImage: "/cards/the_sun.png"
       },
       {
         name: "Judgement",
         symbol: "📯",
         number: "XX",
-        frontImage: "/cards/judgement.png" // ← CHANGE HERE
+        frontImage: "/cards/judgement.png"
       },
       {
         name: "The World",
         symbol: "🌍",
         number: "XXI",
-        frontImage: "/cards/the_world.png" // ← CHANGE HERE
+        frontImage: "/cards/the_world.png"
       }
     ];
 
