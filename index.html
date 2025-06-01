@@ -627,6 +627,15 @@
             .send-btn {
                 align-self: flex-end;
             }
+           .mini-card-face.reversed {
+            transform: rotate(180deg);
+            background: linear-gradient(135deg, #9333ea 0%, #6b46c1 100%);
+            border-color: #9333ea;
+        }
+
+        .mini-card-face.reversed .mini-card-name {
+            transform: rotate(180deg); /* This keeps the text readable */
+        } 
         }
     </style>
 
@@ -734,49 +743,52 @@
             }
         }
 
-        function selectCard(event) {
-            if (selectedCards.length >= 6) return;
-            
-            const cardElement = event.currentTarget;
-            if (cardElement.classList.contains('selected')) return;
-            
-            const cardIndex = parseInt(cardElement.dataset.cardIndex);
-            const card = shuffledDeck[cardIndex];
-            
-            selectedCards.push(card);
-            cardElement.classList.add('selected');
-            
-            document.getElementById('cards-selected').textContent = selectedCards.length;
-            
-            if (selectedCards.length === 6) {
-                setTimeout(() => {
-                    showQuestionScreen();
-                }, 1000);
-            }
-        }
+       function selectCard(event) {
+    if (selectedCards.length >= 6) return;
+    
+    const cardElement = event.currentTarget;
+    if (cardElement.classList.contains('selected')) return;
+    
+    const cardIndex = parseInt(cardElement.dataset.cardIndex);
+    const card = {...shuffledDeck[cardIndex]}; // Create a copy
+    
+    // 50% chance for reversed
+    card.reversed = Math.random() < 0.5;
+    
+    selectedCards.push(card);
+    cardElement.classList.add('selected');
+    
+    document.getElementById('cards-selected').textContent = selectedCards.length;
+    
+    if (selectedCards.length === 6) {
+        setTimeout(() => {
+            showQuestionScreen();
+        }, 1000);
+    }
+}
 
         function showQuestionScreen() {
             showScreen('question-screen');
             displayCardsPreview();
         }
 
-        function displayCardsPreview() {
-            const preview = document.getElementById('cards-preview');
-            preview.innerHTML = '';
-            
-            selectedCards.forEach((card, index) => {
-                const miniCard = document.createElement('div');
-                miniCard.className = 'mini-card';
-                miniCard.innerHTML = `
-                    <div class="mini-card-face">
-                        <div class="mini-card-name">${card.name}</div>
-                        <div class="mini-card-symbol">${card.symbol}</div>
-                    </div>
-                    <div class="mini-position-label">${positionMeanings[index]}</div>
-                `;
-                preview.appendChild(miniCard);
-            });
-        }
+       function displayCardsPreview() {
+    const preview = document.getElementById('cards-preview');
+    preview.innerHTML = '';
+    
+    selectedCards.forEach((card, index) => {
+        const miniCard = document.createElement('div');
+        miniCard.className = 'mini-card';
+        miniCard.innerHTML = `
+            <div class="mini-card-face ${card.reversed ? 'reversed' : ''}">
+                <div class="mini-card-name">${card.name}${card.reversed ? ' (R)' : ''}</div>
+                <div class="mini-card-symbol">${card.symbol}</div>
+            </div>
+            <div class="mini-position-label">${positionMeanings[index]}</div>
+        `;
+        preview.appendChild(miniCard);
+    });
+}
 
         function showChatScreen() {
             userQuestion = document.getElementById('user-question').value.trim();
@@ -790,23 +802,23 @@
             startInitialReading();
         }
 
-        function displayFinalCards() {
-            const display = document.getElementById('final-cards-display');
-            display.innerHTML = '';
-            
-            selectedCards.forEach((card, index) => {
-                const cardDiv = document.createElement('div');
-                cardDiv.className = 'mini-card';
-                cardDiv.innerHTML = `
-                    <div class="mini-card-face">
-                        <div class="mini-card-name">${card.name}</div>
-                        <div class="mini-card-symbol">${card.symbol}</div>
-                    </div>
-                    <div class="mini-position-label">${positionMeanings[index]}</div>
-                `;
-                display.appendChild(cardDiv);
-            });
-        }
+       function displayFinalCards() {
+    const display = document.getElementById('final-cards-display');
+    display.innerHTML = '';
+    
+    selectedCards.forEach((card, index) => {
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'mini-card';
+        cardDiv.innerHTML = `
+            <div class="mini-card-face ${card.reversed ? 'reversed' : ''}">
+                <div class="mini-card-name">${card.name}${card.reversed ? ' (R)' : ''}</div>
+                <div class="mini-card-symbol">${card.symbol}</div>
+            </div>
+            <div class="mini-position-label">${positionMeanings[index]}</div>
+        `;
+        display.appendChild(cardDiv);
+    });
+}
 
         async function startInitialReading() {
             const chatMessages = document.getElementById('chat-messages');
@@ -824,12 +836,15 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        question: userQuestion,
-                        cards: selectedCards,
-                        positions: positionMeanings,
-                        isInitial: true
-                    }),
-                });
+    question: userQuestion,
+    cards: selectedCards.map(card => ({
+        name: card.name,
+        symbol: card.symbol,
+        reversed: card.reversed || false
+    })),
+    positions: positionMeanings,
+    isInitial: true
+}),
 
                 const data = await response.json();
                 
@@ -868,13 +883,16 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        question: message,
-                        cards: selectedCards,
-                        positions: positionMeanings,
-                        isInitial: false,
-                        originalQuestion: userQuestion
-                    }),
-                });
+    question: message,
+    cards: selectedCards.map(card => ({
+        name: card.name,
+        symbol: card.symbol,
+        reversed: card.reversed || false
+    })),
+    positions: positionMeanings,
+    isInitial: false,
+    originalQuestion: userQuestion
+}),
 
                 const data = await response.json();
                 
