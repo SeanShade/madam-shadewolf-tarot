@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Madam Shade Wolf’s Tarot Reading (Custom Images)</title>
+  <title>Madam Shade Wolf's Tarot Reading</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;1,400&display=swap"
     rel="stylesheet"
   />
   <style>
     /*───────────────────────────────────────────────────────────────────────────
-      GLOBAL RESET & BODY STYLING
+      (All of your existing CSS stays exactly the same as the “demo” version.)
     ───────────────────────────────────────────────────────────────────────────*/
     * {
       margin: 0;
@@ -24,10 +24,6 @@
       color: #fbbf24;
       overflow-x: hidden;
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      MYSTICAL BACKGROUND “STARS” LAYER
-    ───────────────────────────────────────────────────────────────────────────*/
     .mystical-background {
       position: fixed;
       top: 0;
@@ -41,7 +37,7 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      background-image: 
+      background-image:
         radial-gradient(2px 2px at 20px 30px, #fbbf24, transparent),
         radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
         radial-gradient(1px 1px at 90px 40px, #9333ea, transparent);
@@ -50,13 +46,9 @@
       animation: twinkle 4s ease-in-out infinite alternate;
     }
     @keyframes twinkle {
-      0%,100% { opacity: 0.3; }
-      100%   { opacity: 1;   }
+      0%   { opacity: 0.3; }
+      100% { opacity: 1;   }
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      CONTAINER & HEADER TITLING
-    ───────────────────────────────────────────────────────────────────────────*/
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -64,10 +56,7 @@
       position: relative;
       z-index: 1;
     }
-    .reading-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
+    .reading-header { text-align: center; margin-bottom: 40px; }
     .title {
       font-family: 'Cinzel', serif;
       font-size: 3.5em;
@@ -82,10 +71,6 @@
       font-style: italic;
       text-shadow: 0 0 20px rgba(192, 132, 252, 0.5);
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      SCREEN WRAPPERS (ONLY ONE “.screen.active” VISIBLE AT A TIME)
-    ───────────────────────────────────────────────────────────────────────────*/
     .screen {
       display: none;
       text-align: center;
@@ -98,10 +83,6 @@
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0);       }
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      CRYSTAL BALL ANIMATION (HOME PAGE)
-    ───────────────────────────────────────────────────────────────────────────*/
     .crystal-ball-small {
       width: 80px;
       height: 80px;
@@ -122,13 +103,9 @@
       animation: energyPulse 3s ease-in-out infinite;
     }
     @keyframes energyPulse {
-      0%, 100% { transform: scale(0.9); opacity: 0.7; }
-      50%      { transform: scale(1.1); opacity: 1;   }
+      0%,100% { transform: scale(0.9); opacity: 0.7; }
+      50%     { transform: scale(1.1); opacity: 1;   }
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      GENERIC HEADINGS & PARAGRAPHS
-    ───────────────────────────────────────────────────────────────────────────*/
     h2 {
       font-family: 'Cinzel', serif;
       font-size: 2.5em;
@@ -160,10 +137,6 @@
       max-width: 600px;
       backdrop-filter: blur(10px);
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      MYSTICAL BUTTON
-    ───────────────────────────────────────────────────────────────────────────*/
     .mystical-btn {
       background: linear-gradient(45deg, #9333ea, #6b46c1);
       color: #fbbf24;
@@ -190,10 +163,6 @@
       cursor: not-allowed;
       transform: none;
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      CARD SELECTION / GRID / PROGRESS
-    ───────────────────────────────────────────────────────────────────────────*/
     .selection-progress {
       font-size: 1.5em;
       margin-bottom: 30px;
@@ -208,11 +177,6 @@
       margin: 40px auto;
       padding: 20px;
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      CARD‐BACK IMAGE (USE YOUR OWN “cards/back.jpg”)
-      We style this <img> so it’s exactly 100×150 px, with rounded corners.
-    ───────────────────────────────────────────────────────────────────────────*/
     .tarot-card {
       width: 100px;
       height: 150px;
@@ -249,10 +213,6 @@
       color: #fbbf24;
       text-shadow: 0 0 10px rgba(251, 191, 36, 1);
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      POSITION GUIDE (LIST ON SELECTION SCREEN)
-    ───────────────────────────────────────────────────────────────────────────*/
     .position-guide {
       max-width: 600px;
       margin: 40px auto;
@@ -289,10 +249,6 @@
       font-size: 1.1em;
       color: #e4e4e7;
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      QUESTION SCREEN (TEXTAREA & CHAR COUNT)
-    ───────────────────────────────────────────────────────────────────────────*/
     .question-section {
       max-width: 600px;
       margin: 0 auto;
@@ -318,10 +274,6 @@
       color: #c084fc;
       margin-bottom: 20px;
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      CARD PREVIEW (SELECTED CARDS ABOVE CHAT)
-    ───────────────────────────────────────────────────────────────────────────*/
     .revealed-cards-preview {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -352,17 +304,9 @@
       color: #c084fc;
       font-family: 'Cinzel', serif;
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      REVERSED CARD STYLING (ALL SCREEN SIZES)
-    ───────────────────────────────────────────────────────────────────────────*/
     .mini-card-face.reversed {
       transform: rotate(180deg);
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      CHAT SCREEN (MESSAGES + INPUT)
-    ───────────────────────────────────────────────────────────────────────────*/
     .chat-container {
       max-width: 800px;
       margin: 0 auto;
@@ -381,7 +325,7 @@
       border: 2px solid rgba(251, 191, 36, 0.3);
       border-radius: 20px;
       padding: 25px;
-      margin-bottom: 20px;
+     	margin-bottom: 20px;
       min-height: 300px;
       max-height: 600px;
       overflow-y: auto;
@@ -413,7 +357,6 @@
     .user-message .message-header {
       color: #c084fc;
     }
-
     .input-container {
       display: flex;
       gap: 10px;
@@ -425,7 +368,7 @@
       border: 2px solid #fbbf24;
       border-radius: 25px;
       background: rgba(45, 27, 105, 0.3);
-      color: #fbbf24;
+     	color: #fbbf24;
       font-size: 1.1em;
       font-family: 'Crimson Text', serif;
     }
@@ -445,14 +388,13 @@
     }
     .send-btn:hover {
       background: linear-gradient(45deg, #a855f7, #7c3aed);
-      transform: translateY(-2px);
+     	transform: translateY(-2px);
     }
     .send-btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
       transform: none;
     }
-
     .loading {
       display: flex;
       align-items: center;
@@ -465,14 +407,10 @@
       animation: dots 1.5s infinite;
     }
     @keyframes dots {
-      0%,20%  { content: ".";  }
-      40%     { content: ".."; }
-      60%,100%{ content: "...";}
+      0%,20%   { content: "."; }
+      40%      { content: ".."; }
+      60%,100% { content: "..."; }
     }
-
-    /*───────────────────────────────────────────────────────────────────────────
-      RESPONSIVE ADJUSTMENTS
-    ───────────────────────────────────────────────────────────────────────────*/
     @media (max-width: 768px) {
       .title {
         font-size: 2.5em;
@@ -545,7 +483,7 @@
       </div>
 
       <div class="card-grid" id="card-selection-grid">
-        <!-- JavaScript will generate 22 .tarot-card <img> elements here -->
+        <!-- JavaScript generates 22 .tarot-card <img> elements here -->
       </div>
 
       <div class="position-guide">
@@ -597,7 +535,7 @@
     <div id="question-screen" class="screen">
       <h2>Share Your Question with Madam Shade Wolf</h2>
       <div class="revealed-cards-preview" id="cards-preview">
-        <!-- JavaScript will populate each .mini-card here -->
+        <!-- JavaScript populates each .mini-card here -->
       </div>
       <div class="question-section">
         <h3>What weighs upon your heart?</h3>
@@ -607,7 +545,7 @@
         </p>
         <textarea
           id="user-question"
-          placeholder="Example: I’m unsure about my relationship… OR Should I take this new job opportunity? OR I feel lost about my life direction…"
+          placeholder="Example: I'm unsure about my relationship… OR Should I take this new job opportunity? OR I feel lost about my life direction…"
           maxlength="500"
         ></textarea>
         <div class="char-count"><span id="char-count">0</span>/500 characters</div>
@@ -622,7 +560,7 @@
       <h2>Your Personal Reading</h2>
       <div class="chat-container">
         <div class="selected-cards-display" id="final-cards-display">
-          <!-- JavaScript will show the final 6 card fronts here -->
+          <!-- JavaScript shows the final 6 card fronts here -->
         </div>
         <div class="chat-messages" id="chat-messages">
           <!-- All AI + user messages appear here -->
@@ -645,147 +583,33 @@
 
   <script>
     //──────────────────────────────────────────────────────────────────────────
-    //  MAJOR ARCANA DATA (Now includes frontImage URLs matching your uploads)
-    //  Make sure each of these files exists in /cards exactly as written:
-    //  back.jpg, death.png, high_priestess.png, judgement.png, justice.png, etc.
+    //  MAJOR ARCANA DATA – Make sure each image file is in /cards/ exactly
     //──────────────────────────────────────────────────────────────────────────
-    const backImageUrl = "/cards/back.jpg"; 
-    // ← We assume you have placed "back.jpg" inside cards/
+    const backImageUrl = "cards/back.jpg";
 
     const majorArcana = [
-      {
-        name: "The Fool",
-        symbol: "🃏",
-        number: "0",
-        frontImage: "/cards/the_fool.png"
-      },
-      {
-        name: "The Magician",
-        symbol: "🎩",
-        number: "I",
-        frontImage: "/cards/the_magician.png"
-      },
-      {
-        name: "The High Priestess",
-        symbol: "🌙",
-        number: "II",
-        frontImage: "/cards/high_priestess.png"
-      },
-      {
-        name: "The Empress",
-        symbol: "👑",
-        number: "III",
-        frontImage: "/cards/the_empress.png"
-      },
-      {
-        name: "The Emperor",
-        symbol: "⚔️",
-        number: "IV",
-        frontImage: "/cards/the_emperor.png"
-      },
-      {
-        name: "The Hierophant",
-        symbol: "🏛️",
-        number: "V",
-        frontImage: "/cards/the_hierophant.png"
-      },
-      {
-        name: "The Lovers",
-        symbol: "💕",
-        number: "VI",
-        frontImage: "/cards/the_lovers.png"
-      },
-      {
-        name: "The Chariot",
-        symbol: "🏇",
-        number: "VII",
-        frontImage: "/cards/the_chariot.png"
-      },
-      {
-        name: "Strength",
-        symbol: "🦁",
-        number: "VIII",
-        frontImage: "/cards/strength.png"
-      },
-      {
-        name: "The Hermit",
-        symbol: "🕯️",
-        number: "IX",
-        frontImage: "/cards/the_hermit.png"
-      },
-      {
-        name: "Wheel of Fortune",
-        symbol: "☸️",
-        number: "X",
-        frontImage: "/cards/wheel_of_fortune.png"
-        // ← If you have NOT yet uploaded wheel_of_fortune.png, be sure to add it.
-      },
-      {
-        name: "Justice",
-        symbol: "⚖️",
-        number: "XI",
-        frontImage: "/cards/justice.png"
-      },
-      {
-        name: "The Hanged Man",
-        symbol: "🙃",
-        number: "XII",
-        frontImage: "/cards/the_hanged_man.png"
-      },
-      {
-        name: "Death",
-        symbol: "💀",
-        number: "XIII",
-        frontImage: "/cards/death.png"
-      },
-      {
-        name: "Temperance",
-        symbol: "🏺",
-        number: "XIV",
-        frontImage: "/cards/temperance.png"
-      },
-      {
-        name: "The Devil",
-        symbol: "😈",
-        number: "XV",
-        frontImage: "/cards/the_devil.png"
-      },
-      {
-        name: "The Tower",
-        symbol: "🗼",
-        number: "XVI",
-        frontImage: "/cards/the_tower.png"
-      },
-      {
-        name: "The Star",
-        symbol: "⭐",
-        number: "XVII",
-        frontImage: "/cards/the_star.png"
-      },
-      {
-        name: "The Moon",
-        symbol: "🌕",
-        number: "XVIII",
-        frontImage: "/cards/the_moon.png"
-      },
-      {
-        name: "The Sun",
-        symbol: "☀️",
-        number: "XIX",
-        frontImage: "/cards/the_sun.png"
-      },
-      {
-        name: "Judgement",
-        symbol: "📯",
-        number: "XX",
-        frontImage: "/cards/judgement.png"
-      },
-      {
-        name: "The World",
-        symbol: "🌍",
-        number: "XXI",
-        frontImage: "/cards/the_world.png"
-      }
+      { name: "The Fool",          symbol: "🃏", number: "0",  frontImage: "cards/the_fool.png" },
+      { name: "The Magician",      symbol: "🎩", number: "I",  frontImage: "cards/the_magician.png" },
+      { name: "The High Priestess",symbol: "🌙", number: "II", frontImage: "cards/high_priestess.png" },
+      { name: "The Empress",       symbol: "👑", number: "III",frontImage: "cards/the_empress.png" },
+      { name: "The Emperor",       symbol: "⚔️", number: "IV", frontImage: "cards/the_emperor.png" },
+      { name: "The Hierophant",    symbol: "🏛️",number: "V", frontImage: "cards/the_hierophant.png" },
+      { name: "The Lovers",        symbol: "💕", number: "VI", frontImage: "cards/the_lovers.png" },
+      { name: "The Chariot",       symbol: "🏇", number: "VII",frontImage: "cards/the_chariot.png" },
+      { name: "Strength",          symbol: "🦁", number: "VIII",frontImage: "cards/strength.png" },
+      { name: "The Hermit",        symbol: "🕯️",number: "IX", frontImage: "cards/the_hermit.png" },
+      { name: "Wheel of Fortune",  symbol: "☸️", number: "X", frontImage: "cards/wheel_of_fortune.png" },
+      { name: "Justice",           symbol: "⚖️", number: "XI", frontImage: "cards/justice.png" },
+      { name: "The Hanged Man",    symbol: "🙃", number: "XII",frontImage: "cards/the_hanged_man.png" },
+      { name: "Death",             symbol: "💀", number: "XIII",frontImage: "cards/death.png" },
+      { name: "Temperance",        symbol: "🏺", number: "XIV", frontImage: "cards/temperance.png" },
+      { name: "The Devil",         symbol: "😈", number: "XV", frontImage: "cards/the_devil.png" },
+      { name: "The Tower",         symbol: "🗼", number: "XVI", frontImage: "cards/the_tower.png" },
+      { name: "The Star",          symbol: "⭐", number: "XVII",frontImage: "cards/the_star.png" },
+      { name: "The Moon",          symbol: "🌕", number: "XVIII",frontImage: "cards/the_moon.png" },
+      { name: "The Sun",           symbol: "☀️", number: "XIX", frontImage: "cards/the_sun.png" },
+      { name: "Judgement",         symbol: "📯", number: "XX",  frontImage: "cards/judgement.png" },
+      { name: "The World",         symbol: "🌍", number: "XXI", frontImage: "cards/the_world.png" }
     ];
 
     const positionMeanings = [
@@ -802,7 +626,7 @@
     let userQuestion = "";
 
     //──────────────────────────────────────────────────────────────────────────
-    // 1) ONCE THE PAGE LOADS, SHUFFLE & ADD EVENT LISTENERS
+    // 1) ON PAGE LOAD, SHUFFLE & SET UP ALL EVENT LISTENERS
     //──────────────────────────────────────────────────────────────────────────
     document.addEventListener("DOMContentLoaded", () => {
       shuffleDeck();
@@ -810,7 +634,6 @@
     });
 
     function shuffleDeck() {
-      // Randomly shuffle the 22 major‐arcana cards
       shuffledDeck = [...majorArcana].sort(() => Math.random() - 0.5);
     }
 
@@ -828,12 +651,10 @@
         .getElementById("new-reading")
         .addEventListener("click", resetReading);
 
-      // Update character counter for the question textarea
       document
         .getElementById("user-question")
         .addEventListener("input", updateCharCount);
 
-      // Allow pressing “Enter” in the follow-up input to send
       document
         .getElementById("follow-up-input")
         .addEventListener("keypress", (e) => {
@@ -850,7 +671,7 @@
     }
 
     //──────────────────────────────────────────────────────────────────────────
-    // 2) SHOW CARD SELECTION & BUILD 22 <img> for CARD-BACKS
+    // 2) SHOW CARD SELECTION & BUILD 22 BACK‐OF‐CARD <img> ELEMENTS
     //──────────────────────────────────────────────────────────────────────────
     function showSelectionScreen() {
       showScreen("selection-screen");
@@ -868,15 +689,13 @@
       const cardGrid = document.getElementById("card-selection-grid");
       cardGrid.innerHTML = "";
 
-      // Build 22 “tarot-card” img elements, each showing backImageUrl initially
       shuffledDeck.forEach((_, i) => {
         const cardElement = document.createElement("div");
         cardElement.className = "tarot-card";
         cardElement.dataset.cardIndex = i;
 
-        // Create an <img> with the back‐of‐card image
         const imgBack = document.createElement("img");
-        imgBack.src = backImageUrl; // ← this must point at your back.jpg
+        imgBack.src = backImageUrl;
         imgBack.alt = "Tarot Card Back";
         imgBack.className = "back";
 
@@ -887,22 +706,19 @@
     }
 
     //──────────────────────────────────────────────────────────────────────────
-    // 3) WHEN USER CLICKS CARD TO SELECT (UP TO 6 CARDS)
+    // 3) WHEN USER CLICKS A CARD (MAX 6 CARDS)
     //──────────────────────────────────────────────────────────────────────────
     function selectCard(event) {
-      if (selectedCards.length >= 6) return; // only 6 allowed
-
+      if (selectedCards.length >= 6) return;
       const cardElement = event.currentTarget;
       if (cardElement.classList.contains("selected")) return;
 
       const cardIndex = parseInt(cardElement.dataset.cardIndex);
-      // Clone the chosen card object & randomly decide if reversed
       const card = { ...shuffledDeck[cardIndex] };
-      card.reversed = Math.random() < 0.5; // 50% chance reversed
+      card.reversed = Math.random() < 0.5; // 50% reversed chance
 
       selectedCards.push(card);
       cardElement.classList.add("selected");
-
       document.getElementById("cards-selected").textContent =
         selectedCards.length;
 
@@ -914,7 +730,7 @@
     }
 
     //──────────────────────────────────────────────────────────────────────────
-    // 4) AFTER SELECTION, SHOW A MINI-PREVIEW OF SELECTED CARD FRONTS
+    // 4) SHOW PREVIEW OF SELECTED CARD FRONTS + QUESTION SCREEN
     //──────────────────────────────────────────────────────────────────────────
     function showQuestionScreen() {
       showScreen("question-screen");
@@ -943,7 +759,7 @@
     }
 
     //──────────────────────────────────────────────────────────────────────────
-    // 5) ONCE “CONSULT THE ORACLE” IS CLICKED, GO TO CHAT SCREEN & SEND FIRST
+    // 5) ON “Consult the Oracle” → SHOW CHAT SCREEN & SEND REAL API REQUEST
     //──────────────────────────────────────────────────────────────────────────
     function showChatScreen() {
       userQuestion = document.getElementById("user-question").value.trim();
@@ -979,16 +795,13 @@
     }
 
     //──────────────────────────────────────────────────────────────────────────
-    // 6) SEND INITIAL “CONSULT THE ORACLE” REQUEST
-    //    – We check response.ok before parsing JSON to avoid “invalid JSON” errors.
+    // 6) SEND INITIAL “Consult the Oracle” TO /api/chat
     //──────────────────────────────────────────────────────────────────────────
     async function startInitialReading() {
-      const chatMessages = document.getElementById("chat-messages");
-
-      // Show user’s question as a chat bubble
+      // Show the user’s question in chat
       addMessage("user", "Your Question", userQuestion);
 
-      // Show a “Consulting the cards...” loading bubble
+      // Show a “Consulting the cards…” loading placeholder
       const loadingDiv = addMessage(
         "ai",
         "Madam Shade Wolf",
@@ -996,6 +809,7 @@
       );
 
       try {
+        // Replace with your real endpoint: /api/chat
         const response = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -1020,30 +834,27 @@
 
         const data = await response.json();
         loadingDiv.querySelector(".message-content").innerHTML = data.response;
-      } catch (error) {
-        console.error("Error:", error);
+      } catch (err) {
+        console.error("Error calling /api/chat:", err);
         loadingDiv.querySelector(".message-content").innerHTML =
           "I apologize, but the mystical energies are disrupted. Please try again.";
       }
     }
 
     //──────────────────────────────────────────────────────────────────────────
-    // 7) SEND FOLLOW-UP QUESTIONS (USER CAN ASK AGAIN)
+    // 7) SEND FOLLOW‐UP MESSAGES (REAL /api/chat)
     //──────────────────────────────────────────────────────────────────────────
     async function sendFollowUpMessage() {
       const input = document.getElementById("follow-up-input");
       const message = input.value.trim();
       if (!message) return;
 
-      // Disable input/button while waiting
       input.disabled = true;
       document.getElementById("send-message").disabled = true;
 
-      // Add the user’s follow-up as a chat bubble
       addMessage("user", "You", message);
       input.value = "";
 
-      // Show “Consulting the cards…” loading again
       const loadingDiv = addMessage(
         "ai",
         "Madam Shade Wolf",
@@ -1076,8 +887,8 @@
 
         const data = await response.json();
         loadingDiv.querySelector(".message-content").innerHTML = data.response;
-      } catch (error) {
-        console.error("Error:", error);
+      } catch (err) {
+        console.error("Error calling /api/chat:", err);
         loadingDiv.querySelector(".message-content").innerHTML =
           "The mystical connection falters… Please try again.";
       } finally {
@@ -1088,7 +899,7 @@
     }
 
     //──────────────────────────────────────────────────────────────────────────
-    // 8) UTILITY TO APPEND A CHAT BUBBLE (AI OR USER)
+    // 8) UTILITY: APPEND A CHAT BUBBLE (AI OR USER)
     //──────────────────────────────────────────────────────────────────────────
     function addMessage(type, sender, content) {
       const chatMessages = document.getElementById("chat-messages");
@@ -1110,11 +921,13 @@
       selectedCards = [];
       userQuestion = "";
       shuffleDeck();
+
       document.getElementById("cards-selected").textContent = "0";
       document.getElementById("user-question").value = "";
       document.getElementById("char-count").textContent = "0";
       document.getElementById("follow-up-input").value = "";
       document.getElementById("chat-messages").innerHTML = "";
+
       showScreen("welcome-screen");
     }
   </script>
