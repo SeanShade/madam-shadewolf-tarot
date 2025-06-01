@@ -820,94 +820,99 @@
     });
 }
 
-        async function startInitialReading() {
-            const chatMessages = document.getElementById('chat-messages');
-            
-            // Show user's question
-            addMessage('user', 'Your Question', userQuestion);
-            
-            // Show loading
-            const loadingDiv = addMessage('ai', 'Madam Shade Wolf', '<div class="loading">Consulting the cards</div>');
-            
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-    question: userQuestion,
-    cards: selectedCards.map(card => ({
-        name: card.name,
-        symbol: card.symbol,
-        reversed: card.reversed || false
-    })),
-    positions: positionMeanings,
-    isInitial: true
-}),       
-  const data = await response.json();
-                
-                 // Replace loading with actual response
-                loadingDiv.querySelector('.message-content').innerHTML = data.response;
-                
-            } catch (error) {
-                console.error('Error:', error);
-                loadingDiv.querySelector('.message-content').innerHTML = 'I apologize, but the mystical energies are disrupted. Please try again.';
-            }
-        }
+      // Replace your startInitialReading function with this:
+async function startInitialReading() {
+    const chatMessages = document.getElementById('chat-messages');
+    
+    // Show user's question
+    addMessage('user', 'Your Question', userQuestion);
+    
+    // Show loading
+    const loadingDiv = addMessage('ai', 'Madam Shade Wolf', '<div class="loading">Consulting the cards</div>');
+    
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                question: userQuestion,
+                cards: selectedCards.map(card => ({
+                    name: card.name,
+                    symbol: card.symbol,
+                    reversed: card.reversed || false
+                })),
+                positions: positionMeanings,
+                isInitial: true
+            })
+        });
+        
+        const data = await response.json();
+        
+        // Replace loading with actual response
+        loadingDiv.querySelector('.message-content').innerHTML = data.response;
+        
+    } catch (error) {
+        console.error('Error:', error);
+        loadingDiv.querySelector('.message-content').innerHTML = 'I apologize, but the mystical energies are disrupted. Please try again.';
+    }
+}
 
-        async function sendFollowUpMessage() {
-            const input = document.getElementById('follow-up-input');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // Disable input while processing
-            input.disabled = true;
-            document.getElementById('send-message').disabled = true;
-            
-            // Add user message
-            addMessage('user', 'You', message);
-            
-            // Clear input
-            input.value = '';
-            
-            // Show loading
-            const loadingDiv = addMessage('ai', 'Madam Shade Wolf', '<div class="loading">Consulting the cards</div>');
-            
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-    question: message,
-    cards: selectedCards.map(card => ({
-        name: card.name,
-        symbol: card.symbol,
-        reversed: card.reversed || false
-    })),
-    positions: positionMeanings,
-    isInitial: false,
-    originalQuestion: userQuestion
-}),
+// Replace your sendFollowUpMessage function with this:
+async function sendFollowUpMessage() {
+    const input = document.getElementById('follow-up-input');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    // Disable input while processing
+    input.disabled = true;
+    document.getElementById('send-message').disabled = true;
+    
+    // Add user message
+    addMessage('user', 'You', message);
+    
+    // Clear input
+    input.value = '';
+    
+    // Show loading
+    const loadingDiv = addMessage('ai', 'Madam Shade Wolf', '<div class="loading">Consulting the cards</div>');
+    
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                question: message,
+                cards: selectedCards.map(card => ({
+                    name: card.name,
+                    symbol: card.symbol,
+                    reversed: card.reversed || false
+                })),
+                positions: positionMeanings,
+                isInitial: false,
+                originalQuestion: userQuestion
+            })
+        });
 
-                const data = await response.json();
-                
-                // Replace loading with actual response
-                loadingDiv.querySelector('.message-content').innerHTML = data.response;
-                
-            } catch (error) {
-                console.error('Error:', error);
-                loadingDiv.querySelector('.message-content').innerHTML = 'The mystical connection falters... Please try again.';
-            } finally {
-                // Re-enable input
-                input.disabled = false;
-                document.getElementById('send-message').disabled = false;
-                input.focus();
-            }
-        }
+        const data = await response.json();
+        
+        // Replace loading with actual response
+        loadingDiv.querySelector('.message-content').innerHTML = data.response;
+        
+    } catch (error) {
+        console.error('Error:', error);
+        loadingDiv.querySelector('.message-content').innerHTML = 'The mystical connection falters... Please try again.';
+    } finally {
+        // Re-enable input
+        input.disabled = false;
+        document.getElementById('send-message').disabled = false;
+        input.focus();
+    }
+}
 
         function addMessage(type, sender, content) {
             const chatMessages = document.getElementById('chat-messages');
