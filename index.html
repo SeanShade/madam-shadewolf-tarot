@@ -844,11 +844,10 @@
     })),
     positions: positionMeanings,
     isInitial: true
-}),
-
-                const data = await response.json();
+}),       
+  const data = await response.json();
                 
-                // Replace loading with actual response
+                 // Replace loading with actual response
                 loadingDiv.querySelector('.message-content').innerHTML = data.response;
                 
             } catch (error) {
