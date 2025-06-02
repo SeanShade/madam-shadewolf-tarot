@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Madam Shade Wolf’s Tarot Reading</title>
+  <title>Madam Shade Wolf's Tarot Reading</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;1,400&display=swap"
     rel="stylesheet"
@@ -26,7 +26,7 @@
     }
 
     /*───────────────────────────────────────────────────────────────────────────
-      MYSTICAL BACKGROUND “STARS” LAYER
+      MYSTICAL BACKGROUND "STARS" LAYER
     ───────────────────────────────────────────────────────────────────────────*/
     .mystical-background {
       position: fixed;
@@ -84,7 +84,7 @@
     }
 
     /*───────────────────────────────────────────────────────────────────────────
-      SCREEN WRAPPERS (ONLY ONE “.screen.active” VISIBLE AT A TIME)
+      SCREEN WRAPPERS (ONLY ONE ".screen.active" VISIBLE AT A TIME)
     ───────────────────────────────────────────────────────────────────────────*/
     .screen {
       display: none;
@@ -571,13 +571,13 @@
           <div class="position-item">
             <span class="position-number">4</span>
             <span class="position-name"
-              >Recent Past – What’s leaving your life</span
+              >Recent Past – What's leaving your life</span
             >
           </div>
           <div class="position-item">
             <span class="position-number">5</span>
             <span class="position-name"
-              >Possible Future – What’s approaching</span
+              >Possible Future – What's approaching</span
             >
           </div>
           <div class="position-item">
@@ -606,7 +606,7 @@
         </p>
         <textarea
           id="user-question"
-          placeholder="Example: I’m unsure about my relationship… OR Should I take this new job opportunity? OR I feel lost about my life direction…"
+          placeholder="Example: I'm unsure about my relationship… OR Should I take this new job opportunity? OR I feel lost about my life direction…"
           maxlength="500"
         ></textarea>
         <div class="char-count"><span id="char-count">0</span>/500 characters</div>
@@ -644,34 +644,36 @@
 
   <script>
     //──────────────────────────────────────────────────────────────────────────
-    //  MAJOR ARCANA DATA (✓ matches your actual file names)
+    //  MAJOR ARCANA DATA - FIXED FILE PATHS
     //──────────────────────────────────────────────────────────────────────────
-    const backImageUrl = "cards/back.png"; 
-    // ↑ We see “back.png” in your GitHub → so use back.png, not back.jpg
+    
+    // Use full GitHub raw URLs for reliable loading
+    const baseCardUrl = "https://raw.githubusercontent.com/SeanShade/madam-shadewolf-tarot/main/cards/";
+    const backImageUrl = baseCardUrl + "back.png";
 
     const majorArcana = [
-      { name: "The Fool",         symbol: "🃏", number: "0",   frontImage: "cards/the_fool.png"         },
-      { name: "The Magician",     symbol: "🎩", number: "I",   frontImage: "cards/the_magician.png"     },
-      { name: "The High Priestess",symbol: "🌙", number: "II",  frontImage: "cards/high_priestess.png"  },
-      { name: "The Empress",      symbol: "👑", number: "III", frontImage: "cards/the_empress.png"      },
-      { name: "The Emperor",      symbol: "⚔️", number: "IV",  frontImage: "cards/the_emperor.png"      },
-      { name: "The Hierophant",   symbol: "🏛️", number: "V",   frontImage: "cards/the_hierophant.png"   },
-      { name: "The Lovers",       symbol: "💕", number: "VI",  frontImage: "cards/the_lovers.png"       },
-      { name: "The Chariot",      symbol: "🏇", number: "VII", frontImage: "cards/the_chariot.png"      },
-      { name: "Strength",         symbol: "🦁", number: "VIII",frontImage: "cards/strength.png"         },
-      { name: "The Hermit",       symbol: "🕯️", number: "IX",  frontImage: "cards/the_hermit.png"       },
-      { name: "Wheel of Fortune", symbol: "☸️", number: "X",   frontImage: "cards/wheel_of_fortune.png" },
-      { name: "Justice",          symbol: "⚖️", number: "XI",  frontImage: "cards/justice.png"          },
-      { name: "The Hanged Man",   symbol: "🙃", number: "XII", frontImage: "cards/the_hanged_man.png"   },
-      { name: "Death",            symbol: "💀", number: "XIII",frontImage: "cards/death.png"            },
-      { name: "Temperance",       symbol: "🏺", number: "XIV", frontImage: "cards/temperance.png"       },
-      { name: "The Devil",        symbol: "😈", number: "XV",  frontImage: "cards/the_devil.png"        },
-      { name: "The Tower",        symbol: "🗼", number: "XVI", frontImage: "cards/the_tower.png"        },
-      { name: "The Star",         symbol: "⭐", number: "XVII",frontImage: "cards/the_star.png"         },
-      { name: "The Moon",         symbol: "🌕", number: "XVIII",frontImage: "cards/the_moon.png"         },
-      { name: "The Sun",          symbol: "☀️", number: "XIX", frontImage: "cards/the_sun.png"          },
-      { name: "Judgement",        symbol: "📯", number: "XX",  frontImage: "cards/judgement.png"        },
-      { name: "The World",        symbol: "🌍", number: "XXI", frontImage: "cards/the_world.png"        }
+      { name: "The Fool",         symbol: "🃏", number: "0",   frontImage: baseCardUrl + "the_fool.png"         },
+      { name: "The Magician",     symbol: "🎩", number: "I",   frontImage: baseCardUrl + "the_magician.png"     },
+      { name: "The High Priestess",symbol: "🌙", number: "II",  frontImage: baseCardUrl + "high_priestess.png"  },
+      { name: "The Empress",      symbol: "👑", number: "III", frontImage: baseCardUrl + "the_empress.png"      },
+      { name: "The Emperor",      symbol: "⚔️", number: "IV",  frontImage: baseCardUrl + "the_emperor.png"      },
+      { name: "The Hierophant",   symbol: "🏛️", number: "V",   frontImage: baseCardUrl + "the_hierophant.png"   },
+      { name: "The Lovers",       symbol: "💕", number: "VI",  frontImage: baseCardUrl + "the_lovers.png"       },
+      { name: "The Chariot",      symbol: "🏇", number: "VII", frontImage: baseCardUrl + "the_chariot.png"      },
+      { name: "Strength",         symbol: "🦁", number: "VIII",frontImage: baseCardUrl + "strength.png"         },
+      { name: "The Hermit",       symbol: "🕯️", number: "IX",  frontImage: baseCardUrl + "the_hermit.png"       },
+      { name: "Wheel of Fortune", symbol: "☸️", number: "X",   frontImage: baseCardUrl + "wheel_of_fortune.png" },
+      { name: "Justice",          symbol: "⚖️", number: "XI",  frontImage: baseCardUrl + "justice.png"          },
+      { name: "The Hanged Man",   symbol: "🙃", number: "XII", frontImage: baseCardUrl + "the_hanged_man.png"   },
+      { name: "Death",            symbol: "💀", number: "XIII",frontImage: baseCardUrl + "death.png"            },
+      { name: "Temperance",       symbol: "🏺", number: "XIV", frontImage: baseCardUrl + "temperance.png"       },
+      { name: "The Devil",        symbol: "😈", number: "XV",  frontImage: baseCardUrl + "the_devil.png"        },
+      { name: "The Tower",        symbol: "🗼", number: "XVI", frontImage: baseCardUrl + "the_tower.png"        },
+      { name: "The Star",         symbol: "⭐", number: "XVII",frontImage: baseCardUrl + "the_star.png"         },
+      { name: "The Moon",         symbol: "🌕", number: "XVIII",frontImage: baseCardUrl + "the_moon.png"         },
+      { name: "The Sun",          symbol: "☀️", number: "XIX", frontImage: baseCardUrl + "the_sun.png"          },
+      { name: "Judgement",        symbol: "📯", number: "XX",  frontImage: baseCardUrl + "judgement.png"        },
+      { name: "The World",        symbol: "🌍", number: "XXI", frontImage: baseCardUrl + "the_world.png"        }
     ];
 
     const positionMeanings = [
@@ -754,11 +756,17 @@
         cardElement.className = "tarot-card";
         cardElement.dataset.cardIndex = i;
 
-        // “back” image that shows until the user clicks it
+        // "back" image that shows until the user clicks it
         const imgBack = document.createElement("img");
         imgBack.src = backImageUrl;
         imgBack.alt = "Tarot Card Back";
         imgBack.className = "back";
+        
+        // Add error handling for image loading
+        imgBack.onerror = function() {
+          console.log("Failed to load back image, trying fallback");
+          this.src = "cards/back.png"; // Fallback to relative path
+        };
 
         cardElement.appendChild(imgBack);
         cardElement.addEventListener("click", selectCard);
@@ -778,6 +786,7 @@
       const cardIndex = parseInt(cardElement.dataset.cardIndex);
       const card = { ...shuffledDeck[cardIndex] };
       card.reversed = Math.random() < 0.5; // 50% chance reversed
+      card.position = selectedCards.length; // Add position index
 
       selectedCards.push(card);
       cardElement.classList.add("selected");
@@ -791,7 +800,7 @@
     }
 
     //──────────────────────────────────────────────────────────────────────────
-    // 4) AFTER SELECTION, SHOW “QUESTION” SCREEN WITH MINI‐PREVIEW
+    // 4) AFTER SELECTION, SHOW "QUESTION" SCREEN WITH MINI‐PREVIEW
     //──────────────────────────────────────────────────────────────────────────
     function showQuestionScreen() {
       showScreen("question-screen");
@@ -805,22 +814,31 @@
       selectedCards.forEach((card, index) => {
         const miniCard = document.createElement("div");
         miniCard.className = "mini-card";
+        
+        const frontImg = document.createElement("img");
+        frontImg.src = card.frontImage;
+        frontImg.alt = card.name;
+        frontImg.className = "front";
+        
+        // Add error handling for front images
+        frontImg.onerror = function() {
+          console.log(`Failed to load front image for ${card.name}`);
+          this.src = "cards/" + card.name.toLowerCase().replace(/\s+/g, '_') + ".png";
+        };
+        
         miniCard.innerHTML = `
           <div class="mini-card-face ${card.reversed ? "reversed" : ""}">
-            <img
-              src="${card.frontImage}"
-              alt="${card.name}"
-              class="front"
-            />
           </div>
           <div class="mini-position-label">${positionMeanings[index]}</div>
         `;
+        
+        miniCard.querySelector('.mini-card-face').appendChild(frontImg);
         preview.appendChild(miniCard);
       });
     }
 
     //──────────────────────────────────────────────────────────────────────────
-    // 5) ON “CONSULT THE ORACLE” CLICK → SWITCH TO CHAT SCREEN & SEND FIRST
+    // 5) ON "CONSULT THE ORACLE" CLICK → SWITCH TO CHAT SCREEN & SEND FIRST
     //──────────────────────────────────────────────────────────────────────────
     function showChatScreen() {
       userQuestion = document.getElementById("user-question").value.trim();
@@ -841,16 +859,24 @@
       selectedCards.forEach((card, index) => {
         const cardDiv = document.createElement("div");
         cardDiv.className = "mini-card";
+        
+        const frontImg = document.createElement("img");
+        frontImg.src = card.frontImage;
+        frontImg.alt = card.name;
+        frontImg.className = "front";
+        
+        // Add error handling
+        frontImg.onerror = function() {
+          console.log(`Failed to load final display image for ${card.name}`);
+        };
+        
         cardDiv.innerHTML = `
           <div class="mini-card-face ${card.reversed ? "reversed" : ""}">
-            <img
-              src="${card.frontImage}"
-              alt="${card.name}"
-              class="front"
-            />
           </div>
           <div class="mini-position-label">${positionMeanings[index]}</div>
         `;
+        
+        cardDiv.querySelector('.mini-card-face').appendChild(frontImg);
         display.appendChild(cardDiv);
       });
     }
@@ -861,10 +887,10 @@
     async function startInitialReading() {
       const chatMessages = document.getElementById("chat-messages");
 
-      // Show user’s question bubble
+      // Show user's question bubble
       addMessage("user", "Your Question", userQuestion);
 
-      // Show “Consulting the cards…” loading bubble
+      // Show "Consulting the cards…" loading bubble
       const loadingDiv = addMessage(
         "ai",
         "Madam Shade Wolf",
@@ -877,11 +903,13 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             question: userQuestion,
-            cards: selectedCards.map((card) => ({
+            cards: selectedCards.map((card, index) => ({
               name: card.name,
               symbol: card.symbol,
               frontImage: card.frontImage,
-              reversed: card.reversed || false
+              reversed: card.reversed || false,
+              position: index,
+              positionName: positionMeanings[index]
             })),
             positions: positionMeanings,
             isInitial: true
@@ -929,11 +957,13 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             question: message,
-            cards: selectedCards.map((card) => ({
+            cards: selectedCards.map((card, index) => ({
               name: card.name,
               symbol: card.symbol,
               frontImage: card.frontImage,
-              reversed: card.reversed || false
+              reversed: card.reversed || false,
+              position: index,
+              positionName: positionMeanings[index]
             })),
             positions: positionMeanings,
             isInitial: false,
