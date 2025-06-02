@@ -736,39 +736,37 @@
       { name: "The World",        symbol: "🌍", number: "XXI" }
     ];
 
-    // Function to generate filename from card name
     function getCardImagePath(cardName, isFront = false) {
-      if (!isFront) return '/cards/back.png';
-      
-      // Map card names to your exact filenames
-      const nameMap = {
-        "The Fool": "the_fool",
-        "The Magician": "the_magician", 
-        "The High Priestess": "high_priestess",
-        "The Empress": "the_empress",
-        "The Emperor": "the_emperor",
-        "The Hierophant": "the_hierophant",
-        "The Lovers": "the_lovers",
-        "The Chariot": "the_chariot",
-        "Strength": "strength",
-        "The Hermit": "the_hermit",
-        "Wheel of Fortune": "wheel_of_fortune",
-        "Justice": "justice",
-        "The Hanged Man": "the_hanged_man",
-        "Death": "death",
-        "Temperance": "temperance",
-        "The Devil": "the_devil",
-        "The Tower": "the_tower",
-        "The Star": "the_star",
-        "The Moon": "the_moon",
-        "The Sun": "the_sun",
-        "Judgement": "judgement",
-        "The World": "the_world"
-      };
-      
-      const filename = nameMap[cardName] || cardName.toLowerCase().replace(/\s+/g, '_');
-      return `/cards/${filename}.png`;
-    }
+  if (!isFront) return '/back.png';
+  
+  const nameMap = {
+    "The Fool": "fool",
+    "The Magician": "magician", 
+    "The High Priestess": "high_priestess",
+    "The Empress": "empress",
+    "The Emperor": "emperor",
+    "The Hierophant": "hierophant",
+    "The Lovers": "lovers",
+    "The Chariot": "chariot",
+    "Strength": "strength",
+    "The Hermit": "hermit",
+    "Wheel of Fortune": "wheel_of_fortune",
+    "Justice": "justice",
+    "The Hanged Man": "hanged_man",
+    "Death": "death",
+    "Temperance": "temperance",
+    "The Devil": "devil",
+    "The Tower": "tower",
+    "The Star": "star",
+    "The Moon": "moon",
+    "The Sun": "sun",
+    "Judgement": "judgement",
+    "The World": "world"
+  };
+  
+  const filename = nameMap[cardName];
+  return `/${filename}.png`;
+}
 
     const positionMeanings = [
       "Present Situation",
