@@ -51,7 +51,7 @@
     }
     @keyframes twinkle {
       0%, 100% { opacity: 0.3; }
-      100%    { opacity: 1;   }
+      50%    { opacity: 1;   }
     }
 
     /*───────────────────────────────────────────────────────────────────────────
@@ -242,7 +242,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 15px;
+      border-radius: 13px;
       display: block;
     }
     .tarot-card:hover {
@@ -360,6 +360,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    
+    .mini-card-face .card-symbol {
+      font-size: 2em;
+      color: #fbbf24;
+      text-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
     }
     
     .mini-card-face .card-name {
@@ -531,6 +537,9 @@
         width: 80px;
         height: 120px;
       }
+      .card-back-design {
+        font-size: 2em;
+      }
       .selected-cards-display {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       }
@@ -671,7 +680,7 @@
 
     <!--──────────────────────────────────────────────────────────────────────
       AI CHAT READING SCREEN
-    ──────────────────────────────────────────────────────────────────────────
+    ──────────────────────────────────────────────────────────────────────────-->
     <div id="chat-screen" class="screen">
       <h2>Your Personal Reading</h2>
       <div class="chat-container">
@@ -731,12 +740,34 @@
     function getCardImagePath(cardName, isFront = false) {
       if (!isFront) return '/cards/back.png';
       
-      // Convert card name to filename format
-      const filename = cardName.toLowerCase()
-        .replace(/the /g, '')
-        .replace(/ /g, '_') + '.png';
+      // Map card names to your exact filenames
+      const nameMap = {
+        "The Fool": "the_fool",
+        "The Magician": "the_magician", 
+        "The High Priestess": "high_priestess",
+        "The Empress": "the_empress",
+        "The Emperor": "the_emperor",
+        "The Hierophant": "the_hierophant",
+        "The Lovers": "the_lovers",
+        "The Chariot": "the_chariot",
+        "Strength": "strength",
+        "The Hermit": "the_hermit",
+        "Wheel of Fortune": "wheel_of_fortune",
+        "Justice": "justice",
+        "The Hanged Man": "the_hanged_man",
+        "Death": "death",
+        "Temperance": "temperance",
+        "The Devil": "the_devil",
+        "The Tower": "the_tower",
+        "The Star": "the_star",
+        "The Moon": "the_moon",
+        "The Sun": "the_sun",
+        "Judgement": "judgement",
+        "The World": "the_world"
+      };
       
-      return `/cards/${filename}`;
+      const filename = nameMap[cardName] || cardName.toLowerCase().replace(/\s+/g, '_');
+      return `/cards/${filename}.png`;
     }
 
     const positionMeanings = [
@@ -807,23 +838,31 @@
       document.querySelectorAll(".screen").forEach((screen) => {
         screen.classList.remove("active");
       });
-      document.getElementById(screenId).classList.add("active");
+      const targetScreen = document.getElementById(screenId);
+      if (targetScreen) {
+        targetScreen.classList.add("active");
+      }
     }
 
     function createCardSelection() {
       const cardGrid = document.getElementById("card-selection-grid");
       cardGrid.innerHTML = "";
 
-      shuffledDeck.forEach((_, i) => {
+      shuffledDeck.forEach((card, i) => {
         const cardElement = document.createElement("div");
         cardElement.className = "tarot-card";
         cardElement.dataset.cardIndex = i;
 
-        // Create a fallback design for card back
-        cardElement.innerHTML = `
-          <div class="card-back-design">${shuffledDeck[i].symbol}</div>
-        `;
-
+        // Try to load image, fall back to emoji if it fails
+        const img = document.createElement("img");
+        img.src = getCardImagePath(card.name, false); // false for back image
+        img.alt = "Tarot Card Back";
+        img.onerror = function() {
+          // If image fails, show emoji
+          cardElement.innerHTML = `<div class="card-back-design">${card.symbol}</div>`;
+        };
+        
+        cardElement.appendChild(img);
         cardElement.addEventListener("click", selectCard);
         cardGrid.appendChild(cardElement);
       });
@@ -870,13 +909,35 @@
         const miniCard = document.createElement("div");
         miniCard.className = "mini-card";
         
-        miniCard.innerHTML = `
-          <div class="mini-card-face ${card.reversed ? "reversed" : ""}">
-            <div class="card-name">${card.name}</div>
-            ${card.reversed ? '<div class="reversed-indicator">R</div>' : ''}
-          </div>
-          <div class="mini-position-label">${positionMeanings[index]}</div>
-        `;
+        const cardFace = document.createElement("div");
+        cardFace.className = `mini-card-face ${card.reversed ? "reversed" : ""}`;
+        
+        // Try to load front image
+        const img = document.createElement("img");
+        img.src = getCardImagePath(card.name, true); // true for front image
+        img.alt = card.name;
+        img.onerror = function() {
+          // If image fails, show symbol
+          cardFace.innerHTML = `<div class="card-symbol">${card.symbol}</div>`;
+          if (card.reversed) {
+            cardFace.innerHTML += '<div class="reversed-indicator">R</div>';
+          }
+        };
+        
+        cardFace.appendChild(img);
+        if (card.reversed) {
+          const reversedIndicator = document.createElement("div");
+          reversedIndicator.className = "reversed-indicator";
+          reversedIndicator.textContent = "R";
+          cardFace.appendChild(reversedIndicator);
+        }
+        
+        miniCard.appendChild(cardFace);
+        
+        const positionLabel = document.createElement("div");
+        positionLabel.className = "mini-position-label";
+        positionLabel.textContent = positionMeanings[index];
+        miniCard.appendChild(positionLabel);
         
         preview.appendChild(miniCard);
       });
@@ -905,13 +966,35 @@
         const cardDiv = document.createElement("div");
         cardDiv.className = "mini-card";
         
-        cardDiv.innerHTML = `
-          <div class="mini-card-face ${card.reversed ? "reversed" : ""}">
-            <div class="card-name">${card.name}</div>
-            ${card.reversed ? '<div class="reversed-indicator">R</div>' : ''}
-          </div>
-          <div class="mini-position-label">${positionMeanings[index]}</div>
-        `;
+        const cardFace = document.createElement("div");
+        cardFace.className = `mini-card-face ${card.reversed ? "reversed" : ""}`;
+        
+        // Try to load front image
+        const img = document.createElement("img");
+        img.src = getCardImagePath(card.name, true); // true for front image
+        img.alt = card.name;
+        img.onerror = function() {
+          // If image fails, show symbol
+          cardFace.innerHTML = `<div class="card-symbol">${card.symbol}</div>`;
+          if (card.reversed) {
+            cardFace.innerHTML += '<div class="reversed-indicator">R</div>';
+          }
+        };
+        
+        cardFace.appendChild(img);
+        if (card.reversed) {
+          const reversedIndicator = document.createElement("div");
+          reversedIndicator.className = "reversed-indicator";
+          reversedIndicator.textContent = "R";
+          cardFace.appendChild(reversedIndicator);
+        }
+        
+        cardDiv.appendChild(cardFace);
+        
+        const positionLabel = document.createElement("div");
+        positionLabel.className = "mini-position-label";
+        positionLabel.textContent = positionMeanings[index];
+        cardDiv.appendChild(positionLabel);
         
         display.appendChild(cardDiv);
       });
