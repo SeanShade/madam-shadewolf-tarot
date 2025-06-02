@@ -221,8 +221,24 @@
       position: relative;
       overflow: hidden;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      background: linear-gradient(135deg, #2d1b69 0%, #1a0b2e 100%);
+      border: 2px solid #fbbf24;
     }
-    .tarot-card img.back {
+    
+    /* Fallback design for card back */
+    .card-back-design {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-size: 3em;
+      color: #fbbf24;
+      text-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+    }
+    
+    .tarot-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -247,6 +263,7 @@
       font-size: 2em;
       color: #fbbf24;
       text-shadow: 0 0 10px rgba(251, 191, 36, 1);
+      z-index: 10;
     }
 
     /*───────────────────────────────────────────────────────────────────────────
@@ -334,17 +351,34 @@
     .mini-card-face {
       width: 80px;
       height: 120px;
-      border: none;
+      border: 2px solid #fbbf24;
       border-radius: 10px;
       overflow: hidden;
       margin: 0 auto 10px;
       position: relative;
+      background: linear-gradient(135deg, #2d1b69 0%, #1a0b2e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .mini-card-face img.front {
+    
+    .mini-card-face .card-name {
+      color: #fbbf24;
+      font-family: 'Cinzel', serif;
+      font-size: 0.8em;
+      text-align: center;
+      padding: 5px;
+      word-wrap: break-word;
+    }
+    
+    .mini-card-face img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
     .mini-position-label {
       font-size: 0.9em;
@@ -356,6 +390,19 @@
       REVERSED CARD STYLING (ALL SCREEN SIZES)
     ───────────────────────────────────────────────────────────────────────────*/
     .mini-card-face.reversed {
+      transform: rotate(180deg);
+    }
+    
+    .reversed-indicator {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: #fbbf24;
+      color: #1a0b2e;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 0.7em;
+      font-weight: bold;
       transform: rotate(180deg);
     }
 
@@ -504,6 +551,14 @@
 
   <div class="container">
     <!--──────────────────────────────────────────────────────────────────────
+      HEADER ALWAYS VISIBLE
+    ──────────────────────────────────────────────────────────────────────-->
+    <div class="reading-header">
+      <h1 class="title">Madam Shade Wolf</h1>
+      <p class="subtitle">Ancient Tarot Wisdom for Modern Seekers</p>
+    </div>
+
+    <!--──────────────────────────────────────────────────────────────────────
       WELCOME SCREEN
     ──────────────────────────────────────────────────────────────────────-->
     <div id="welcome-screen" class="screen active">
@@ -544,7 +599,7 @@
       </div>
 
       <div class="card-grid" id="card-selection-grid">
-        <!-- JavaScript will generate 22 .tarot-card <img> elements here -->
+        <!-- JavaScript will generate 22 .tarot-card elements here -->
       </div>
 
       <div class="position-guide">
@@ -616,7 +671,7 @@
 
     <!--──────────────────────────────────────────────────────────────────────
       AI CHAT READING SCREEN
-    ──────────────────────────────────────────────────────────────────────-->
+    ──────────────────────────────────────────────────────────────────────────
     <div id="chat-screen" class="screen">
       <h2>Your Personal Reading</h2>
       <div class="chat-container">
@@ -644,37 +699,45 @@
 
   <script>
     //──────────────────────────────────────────────────────────────────────────
-    //  MAJOR ARCANA DATA - FIXED FILE PATHS
+    //  MAJOR ARCANA DATA - WITH PROPER IMAGE HANDLING
     //──────────────────────────────────────────────────────────────────────────
     
-    // Use full GitHub raw URLs for reliable loading
-    const baseCardUrl = "https://raw.githubusercontent.com/SeanShade/madam-shadewolf-tarot/main/cards/";
-    const backImageUrl = baseCardUrl + "back.png";
-
     const majorArcana = [
-      { name: "The Fool",         symbol: "🃏", number: "0",   frontImage: baseCardUrl + "the_fool.png"         },
-      { name: "The Magician",     symbol: "🎩", number: "I",   frontImage: baseCardUrl + "the_magician.png"     },
-      { name: "The High Priestess",symbol: "🌙", number: "II",  frontImage: baseCardUrl + "high_priestess.png"  },
-      { name: "The Empress",      symbol: "👑", number: "III", frontImage: baseCardUrl + "the_empress.png"      },
-      { name: "The Emperor",      symbol: "⚔️", number: "IV",  frontImage: baseCardUrl + "the_emperor.png"      },
-      { name: "The Hierophant",   symbol: "🏛️", number: "V",   frontImage: baseCardUrl + "the_hierophant.png"   },
-      { name: "The Lovers",       symbol: "💕", number: "VI",  frontImage: baseCardUrl + "the_lovers.png"       },
-      { name: "The Chariot",      symbol: "🏇", number: "VII", frontImage: baseCardUrl + "the_chariot.png"      },
-      { name: "Strength",         symbol: "🦁", number: "VIII",frontImage: baseCardUrl + "strength.png"         },
-      { name: "The Hermit",       symbol: "🕯️", number: "IX",  frontImage: baseCardUrl + "the_hermit.png"       },
-      { name: "Wheel of Fortune", symbol: "☸️", number: "X",   frontImage: baseCardUrl + "wheel_of_fortune.png" },
-      { name: "Justice",          symbol: "⚖️", number: "XI",  frontImage: baseCardUrl + "justice.png"          },
-      { name: "The Hanged Man",   symbol: "🙃", number: "XII", frontImage: baseCardUrl + "the_hanged_man.png"   },
-      { name: "Death",            symbol: "💀", number: "XIII",frontImage: baseCardUrl + "death.png"            },
-      { name: "Temperance",       symbol: "🏺", number: "XIV", frontImage: baseCardUrl + "temperance.png"       },
-      { name: "The Devil",        symbol: "😈", number: "XV",  frontImage: baseCardUrl + "the_devil.png"        },
-      { name: "The Tower",        symbol: "🗼", number: "XVI", frontImage: baseCardUrl + "the_tower.png"        },
-      { name: "The Star",         symbol: "⭐", number: "XVII",frontImage: baseCardUrl + "the_star.png"         },
-      { name: "The Moon",         symbol: "🌕", number: "XVIII",frontImage: baseCardUrl + "the_moon.png"         },
-      { name: "The Sun",          symbol: "☀️", number: "XIX", frontImage: baseCardUrl + "the_sun.png"          },
-      { name: "Judgement",        symbol: "📯", number: "XX",  frontImage: baseCardUrl + "judgement.png"        },
-      { name: "The World",        symbol: "🌍", number: "XXI", frontImage: baseCardUrl + "the_world.png"        }
+      { name: "The Fool",         symbol: "🃏", number: "0"   },
+      { name: "The Magician",     symbol: "🎩", number: "I"   },
+      { name: "The High Priestess",symbol: "🌙", number: "II"  },
+      { name: "The Empress",      symbol: "👑", number: "III" },
+      { name: "The Emperor",      symbol: "⚔️", number: "IV"  },
+      { name: "The Hierophant",   symbol: "🏛️", number: "V"   },
+      { name: "The Lovers",       symbol: "💕", number: "VI"  },
+      { name: "The Chariot",      symbol: "🏇", number: "VII" },
+      { name: "Strength",         symbol: "🦁", number: "VIII"},
+      { name: "The Hermit",       symbol: "🕯️", number: "IX"  },
+      { name: "Wheel of Fortune", symbol: "☸️", number: "X"   },
+      { name: "Justice",          symbol: "⚖️", number: "XI"  },
+      { name: "The Hanged Man",   symbol: "🙃", number: "XII" },
+      { name: "Death",            symbol: "💀", number: "XIII"},
+      { name: "Temperance",       symbol: "🏺", number: "XIV" },
+      { name: "The Devil",        symbol: "😈", number: "XV"  },
+      { name: "The Tower",        symbol: "🗼", number: "XVI" },
+      { name: "The Star",         symbol: "⭐", number: "XVII"},
+      { name: "The Moon",         symbol: "🌕", number: "XVIII"},
+      { name: "The Sun",          symbol: "☀️", number: "XIX" },
+      { name: "Judgement",        symbol: "📯", number: "XX"  },
+      { name: "The World",        symbol: "🌍", number: "XXI" }
     ];
+
+    // Function to generate filename from card name
+    function getCardImagePath(cardName, isFront = false) {
+      if (!isFront) return '/cards/back.png';
+      
+      // Convert card name to filename format
+      const filename = cardName.toLowerCase()
+        .replace(/the /g, '')
+        .replace(/ /g, '_') + '.png';
+      
+      return `/cards/${filename}`;
+    }
 
     const positionMeanings = [
       "Present Situation",
@@ -756,19 +819,11 @@
         cardElement.className = "tarot-card";
         cardElement.dataset.cardIndex = i;
 
-        // "back" image that shows until the user clicks it
-        const imgBack = document.createElement("img");
-        imgBack.src = backImageUrl;
-        imgBack.alt = "Tarot Card Back";
-        imgBack.className = "back";
-        
-        // Add error handling for image loading
-        imgBack.onerror = function() {
-          console.log("Failed to load back image, trying fallback");
-          this.src = "cards/back.png"; // Fallback to relative path
-        };
+        // Create a fallback design for card back
+        cardElement.innerHTML = `
+          <div class="card-back-design">${shuffledDeck[i].symbol}</div>
+        `;
 
-        cardElement.appendChild(imgBack);
         cardElement.addEventListener("click", selectCard);
         cardGrid.appendChild(cardElement);
       });
@@ -786,7 +841,7 @@
       const cardIndex = parseInt(cardElement.dataset.cardIndex);
       const card = { ...shuffledDeck[cardIndex] };
       card.reversed = Math.random() < 0.5; // 50% chance reversed
-      card.position = selectedCards.length; // Add position index
+      card.position = selectedCards.length;
 
       selectedCards.push(card);
       cardElement.classList.add("selected");
@@ -815,24 +870,14 @@
         const miniCard = document.createElement("div");
         miniCard.className = "mini-card";
         
-        const frontImg = document.createElement("img");
-        frontImg.src = card.frontImage;
-        frontImg.alt = card.name;
-        frontImg.className = "front";
-        
-        // Add error handling for front images
-        frontImg.onerror = function() {
-          console.log(`Failed to load front image for ${card.name}`);
-          this.src = "cards/" + card.name.toLowerCase().replace(/\s+/g, '_') + ".png";
-        };
-        
         miniCard.innerHTML = `
           <div class="mini-card-face ${card.reversed ? "reversed" : ""}">
+            <div class="card-name">${card.name}</div>
+            ${card.reversed ? '<div class="reversed-indicator">R</div>' : ''}
           </div>
           <div class="mini-position-label">${positionMeanings[index]}</div>
         `;
         
-        miniCard.querySelector('.mini-card-face').appendChild(frontImg);
         preview.appendChild(miniCard);
       });
     }
@@ -860,23 +905,14 @@
         const cardDiv = document.createElement("div");
         cardDiv.className = "mini-card";
         
-        const frontImg = document.createElement("img");
-        frontImg.src = card.frontImage;
-        frontImg.alt = card.name;
-        frontImg.className = "front";
-        
-        // Add error handling
-        frontImg.onerror = function() {
-          console.log(`Failed to load final display image for ${card.name}`);
-        };
-        
         cardDiv.innerHTML = `
           <div class="mini-card-face ${card.reversed ? "reversed" : ""}">
+            <div class="card-name">${card.name}</div>
+            ${card.reversed ? '<div class="reversed-indicator">R</div>' : ''}
           </div>
           <div class="mini-position-label">${positionMeanings[index]}</div>
         `;
         
-        cardDiv.querySelector('.mini-card-face').appendChild(frontImg);
         display.appendChild(cardDiv);
       });
     }
@@ -906,7 +942,6 @@
             cards: selectedCards.map((card, index) => ({
               name: card.name,
               symbol: card.symbol,
-              frontImage: card.frontImage,
               reversed: card.reversed || false,
               position: index,
               positionName: positionMeanings[index]
@@ -917,9 +952,7 @@
         });
 
         if (!response.ok) {
-          loadingDiv.querySelector(".message-content").innerText =
-            "A server error occurred. Please try again.";
-          return;
+          throw new Error('API request failed');
         }
 
         const data = await response.json();
@@ -927,7 +960,7 @@
       } catch (error) {
         console.error("Error:", error);
         loadingDiv.querySelector(".message-content").innerHTML =
-          "I apologize, but the mystical energies are disrupted. Please try again.";
+          "I apologize, but the mystical energies are disrupted. Please ensure your API key is configured in the environment variables and try again.";
       }
     }
 
@@ -960,7 +993,6 @@
             cards: selectedCards.map((card, index) => ({
               name: card.name,
               symbol: card.symbol,
-              frontImage: card.frontImage,
               reversed: card.reversed || false,
               position: index,
               positionName: positionMeanings[index]
@@ -972,9 +1004,7 @@
         });
 
         if (!response.ok) {
-          loadingDiv.querySelector(".message-content").innerText =
-            "A server error occurred. Please try again.";
-          return;
+          throw new Error('API request failed');
         }
 
         const data = await response.json();
@@ -982,7 +1012,7 @@
       } catch (error) {
         console.error("Error:", error);
         loadingDiv.querySelector(".message-content").innerHTML =
-          "The mystical connection falters… Please try again.";
+          "The mystical connection falters… Please check your connection and try again.";
       } finally {
         input.disabled = false;
         document.getElementById("send-message").disabled = false;
