@@ -706,68 +706,78 @@
   </div>
 
   <script>
-    //──────────────────────────────────────────────────────────────────────────
-    //  MAJOR ARCANA DATA - WITH PROPER IMAGE HANDLING
-    //──────────────────────────────────────────────────────────────────────────
-    const majorArcana = [
-      { name: "The Fool",          symbol: "🃏", number: "0"    },
-      { name: "The Magician",      symbol: "🎩", number: "I"    },
-      { name: "The High Priestess",symbol: "🌙", number: "II"   },
-      { name: "The Empress",       symbol: "👑", number: "III"  },
-      { name: "The Emperor",       symbol: "⚔️", number: "IV"   },
-      { name: "The Hierophant",    symbol: "🏛️", number: "V"    },
-      { name: "The Lovers",        symbol: "💕", number: "VI"   },
-      { name: "The Chariot",       symbol: "🏇", number: "VII"  },
-      { name: "Strength",          symbol: "🦁", number: "VIII" },
-      { name: "The Hermit",        symbol: "🕯️", number: "IX"   },
-      { name: "Wheel of Fortune",  symbol: "☸️", number: "X"    },
-      { name: "Justice",           symbol: "⚖️", number: "XI"   },
-      { name: "The Hanged Man",    symbol: "🙃", number: "XII"  },
-      { name: "Death",             symbol: "💀", number: "XIII" },
-      { name: "Temperance",        symbol: "🏺", number: "XIV"  },
-      { name: "The Devil",         symbol: "😈", number: "XV"   },
-      { name: "The Tower",         symbol: "🗼", number: "XVI"  },
-      { name: "The Star",          symbol: "⭐", number: "XVII" },
-      { name: "The Moon",          symbol: "🌕", number: "XVIII"},
-      { name: "The Sun",           symbol: "☀️", number: "XIX"  },
-      { name: "Judgement",         symbol: "📯", number: "XX"   },
-      { name: "The World",         symbol: "🌍", number: "XXI"  }
-    ];
+  //──────────────────────────────────────────────────────────────────────────
+  //  MAJOR ARCANA DATA
+  //──────────────────────────────────────────────────────────────────────────
+  const majorArcana = [
+    { name: "The Fool",         symbol: "🃏", number: "0"   },
+    { name: "The Magician",     symbol: "🎩", number: "I"   },
+    { name: "The High Priestess",symbol: "🌙", number: "II"  },
+    { name: "The Empress",      symbol: "👑", number: "III" },
+    { name: "The Emperor",      symbol: "⚔️", number: "IV"  },
+    { name: "The Hierophant",   symbol: "🏛️", number: "V"   },
+    { name: "The Lovers",       symbol: "💕", number: "VI"  },
+    { name: "The Chariot",      symbol: "🏇", number: "VII" },
+    { name: "Strength",         symbol: "🦁", number: "VIII"},
+    { name: "The Hermit",       symbol: "🕯️", number: "IX"  },
+    { name: "Wheel of Fortune", symbol: "☸️", number: "X"   },
+    { name: "Justice",          symbol: "⚖️", number: "XI"  },
+    { name: "The Hanged Man",   symbol: "🙃", number: "XII" },
+    { name: "Death",            symbol: "💀", number: "XIII"},
+    { name: "Temperance",       symbol: "🏺", number: "XIV" },
+    { name: "The Devil",        symbol: "😈", number: "XV"  },
+    { name: "The Tower",        symbol: "🗼", number: "XVI" },
+    { name: "The Star",         symbol: "⭐", number: "XVII"},
+    { name: "The Moon",         symbol: "🌕", number: "XVIII"},
+    { name: "The Sun",          symbol: "☀️", number: "XIX" },
+    { name: "Judgement",        symbol: "📯", number: "XX"  },
+    { name: "The World",        symbol: "🌍", number: "XXI" }
+  ];
 
-    // Map each card name to its lowercase_underscore filename (no leading slash)
-    function getCardImagePath(cardName, isFront = false) {
-      if (!isFront) {
-        // Always return the back‐of‐card image (in the same folder as index.html)
-        return 'back.png';
-      }
-      const nameMap = {
-        "The Fool": "fool",
-        "The Magician": "magician", 
-        "The High Priestess": "high_priestess",
-        "The Empress": "empress",
-        "The Emperor": "emperor",
-        "The Hierophant": "hierophant",
-        "The Lovers": "lovers",
-        "The Chariot": "chariot",
-        "Strength": "strength",
-        "The Hermit": "hermit",
-        "Wheel of Fortune": "wheel_of_fortune",
-        "Justice": "justice",
-        "The Hanged Man": "hanged_man",
-        "Death": "death",
-        "Temperance": "temperance",
-        "The Devil": "devil",
-        "The Tower": "tower",
-        "The Star": "star",
-        "The Moon": "moon",
-        "The Sun": "sun",
-        "Judgement": "judgement",
-        "The World": "world"
-      };
-      const filename = nameMap[cardName];
-      // Return "fool.png", "high_priestess.png", etc. (again, no leading slash)
-      return filename ? `${filename}.png` : "";
+  //──────────────────────────────────────────────────────────────────────────
+  //  This function returns just "back.png" or "fool.png", etc.
+  //  Because index.html and all .png files are in the same folder,
+  //  the browser will load them correctly at /back.png, /fool.png, etc.
+  //──────────────────────────────────────────────────────────────────────────
+  function getCardImagePath(cardName, isFront = false) {
+    // If it's not the front of the card, always use the back-of-card image:
+    if (!isFront) {
+      return "back.png";
     }
+
+    // Otherwise, map each Major Arcana name → its lowercase_underscore filename
+    const nameMap = {
+      "The Fool":          "fool",
+      "The Magician":      "magician",
+      "The High Priestess": "high_priestess",
+      "The Empress":       "empress",
+      "The Emperor":       "emperor",
+      "The Hierophant":    "hierophant",
+      "The Lovers":        "lovers",
+      "The Chariot":       "chariot",
+      "Strength":          "strength",
+      "The Hermit":        "hermit",
+      "Wheel of Fortune":  "wheel_of_fortune",
+      "Justice":           "justice",
+      "The Hanged Man":    "hanged_man",
+      "Death":             "death",
+      "Temperance":        "temperance",
+      "The Devil":         "devil",
+      "The Tower":         "tower",
+      "The Star":          "star",
+      "The Moon":          "moon",
+      "The Sun":           "sun",
+      "Judgement":         "judgement",
+      "The World":         "world"
+    };
+
+    // Grab the lowercase-underscore filename:
+    const filename = nameMap[cardName];
+    // Return, for example, "fool.png" or "hanged_man.png"
+    return `${filename}.png`;
+  }
+</script>
+
 
     const positionMeanings = [
       "Present Situation",
