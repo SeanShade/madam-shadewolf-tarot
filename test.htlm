@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Test</title>
+</head>
+<body>
+    <h1>Testing Image Paths</h1>
+    
+    <h2>Test 1: /back.png</h2>
+    <img src="/back.png" alt="Test 1" style="width: 100px; border: 2px solid red;">
+    
+    <h2>Test 2: back.png</h2>
+    <img src="back.png" alt="Test 2" style="width: 100px; border: 2px solid blue;">
+    
+    <h2>Test 3: ./back.png</h2>
+    <img src="./back.png" alt="Test 3" style="width: 100px; border: 2px solid green;">
+    
+    <h2>Test 4: /public/back.png</h2>
+    <img src="/public/back.png" alt="Test 4" style="width: 100px; border: 2px solid yellow;">
+    
+    <p>If you see an image above, note which test number worked!</p>
+</body>
+</html>
