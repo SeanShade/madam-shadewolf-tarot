@@ -744,7 +744,7 @@
     //  the browser will load them correctly at /back.png, /fool.png, etc.
     //──────────────────────────────────────────────────────────────────────────
     function getCardImagePath(cardName, isFront = false) {
-  if (!isFront) return "/back.png";  
+  if (!isFront) return "back.png";  // REMOVE the /
   
   const nameMap = {
     "The Fool": "fool",
@@ -772,7 +772,7 @@
   };
   
   const filename = nameMap[cardName];
-  return `/${filename}.png`;  
+  return `${filename}.png`;  // REMOVE the /
 }
 
     //──────────────────────────────────────────────────────────────────────────
