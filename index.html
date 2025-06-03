@@ -736,8 +736,8 @@
       { name: "The World",        symbol: "🌍", number: "XXI" }
     ];
 
-    function getCardImagePath(cardName, isFront = false) {
-  if (!isFront) return '/back.png';  // Back to using /
+   function getCardImagePath(cardName, isFront = false) {
+  if (!isFront) return '/back.png';  // Just /filename
   
   const nameMap = {
     "The Fool": "fool",
@@ -765,7 +765,7 @@
   };
   
   const filename = nameMap[cardName];
-  return `/${filename}.png`;  // Back to using /
+  return `/${filename}.png`;  // Just /filename
 }
 
     const positionMeanings = [
