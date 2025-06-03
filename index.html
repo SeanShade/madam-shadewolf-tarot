@@ -737,7 +737,7 @@
     ];
 
     function getCardImagePath(cardName, isFront = false) {
-  if (!isFront) return '/back.png';
+  if (!isFront) return './back.png';  // Added ./
   
   const nameMap = {
     "The Fool": "fool",
@@ -765,7 +765,7 @@
   };
   
   const filename = nameMap[cardName];
-  return `/${filename}.png`;
+  return `./${filename}.png`;  // Added ./
 }
 
     const positionMeanings = [
