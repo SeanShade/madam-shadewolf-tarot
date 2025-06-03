@@ -1,11 +1,19 @@
 {
   "version": 2,
   "builds": [
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "api/**/*.js", "use": "@vercel/node" }
+    // 1) Build any JS under api/ as a Node serverless function
+    { "src": "api/**/*.js", "use": "@vercel/node" },
+
+    // 2) Build everything under public/ as static files
+    { "src": "public/**/*",   "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/", "dest": "/index.html" },
-    { "src": "/api/(.*)", "dest": "/api/$1.js" }
+    // 1) If the URL starts with /api/, send it to your chat.js function:
+    { "src": "/api/(.*)", "dest": "/api/$1.js" },
+
+    // 2) For any other path (/, /back.png, etc.), look in public/:
+    //    e.g. GET  /back.png  →  serve  /public/back.png
+    //         GET  /        →  serve  /public/index.html
+    { "src": "/(.*)",      "dest": "/public/$1" }
   ]
 }
