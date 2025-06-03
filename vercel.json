@@ -1,11 +1,17 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/**/*.js", "use": "@vercel/node" },
-    { "src": "public/**/*",   "use": "@vercel/static" }
+    // 1) Treat any JS file under /api as a Node function:
+    { "src": "api/**/*.js",   "use": "@vercel/node" },
+    // 2) Treat everything under /public as static output:
+    { "src": "public/**/*",    "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1.js" },
-    { "src": "/(.*)",      "dest": "/public/$1" }
+    // 1) Route /api/... to the corresponding /api/<whatever>.js function:
+    { "src": "/api/(.*)",      "dest": "/api/$1.js" },
+
+    // 2) All other requests (“/”, “/back.png”, “/star.png”, etc.)
+    //    map to the “public/” folder:
+    { "src": "/(.*)",          "dest": "/public/$1" }
   ]
 }
